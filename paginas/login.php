@@ -19,10 +19,10 @@
                 <div class="settings-icon">
                     <img src="assets/img/gear.svg" alt="Configurações">
                 </div>
-                <form class="login-form" action="php/login.php" method="POST">
+                <form class="login-form" action="db/processa_login.php" method="POST">
                     <h2>Login</h2>
-                    <input type="text" name="usuario" placeholder="Usuário" required>
-                    <input type="password" name="senha" placeholder="Senha" required>
+                    <input type="text" name="email" placeholder="email" required>
+                    <input type="password" name="senha" placeholder="senha" required>
                     <button type="submit">Entrar</button>
                 </form>
             </div>
