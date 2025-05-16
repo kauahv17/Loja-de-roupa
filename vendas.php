@@ -100,7 +100,7 @@
         }
         .vendas-card-actions {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: flex-end;
             margin-top: 12px;
         }
@@ -141,9 +141,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Camiseta São Paulo</div>
-                        <div class="vendas-card-price">R$ 25,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 25,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -155,9 +158,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Camiseta São Paulo</div>
-                        <div class="vendas-card-price">R$ 25,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 25,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -168,9 +174,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Camiseta São Paulo</div>
-                        <div class="vendas-card-price">R$ 25,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 25,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -183,9 +192,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Shorts Esportivo</div>
-                        <div class="vendas-card-price">R$ 35,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 35,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -197,9 +209,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Calça Jeans</div>
-                        <div class="vendas-card-price">R$ 70,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 70,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -211,9 +226,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Vestido Floral</div>
-                        <div class="vendas-card-price">R$ 90,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 90,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -225,9 +243,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Tênis Casual</div>
-                        <div class="vendas-card-price">R$ 120,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 120,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -239,9 +260,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Blusa Moletom</div>
-                        <div class="vendas-card-price">R$ 80,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 80,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -253,9 +277,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Saia Jeans</div>
-                        <div class="vendas-card-price">R$ 55,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 55,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -267,9 +294,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Camisa Polo</div>
-                        <div class="vendas-card-price">R$ 60,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 60,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -281,9 +311,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Regata Fitness</div>
-                        <div class="vendas-card-price">R$ 22,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 22,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -295,9 +328,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Jaqueta Corta Vento</div>
-                        <div class="vendas-card-price">R$ 110,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 110,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -309,9 +345,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Meia Esportiva</div>
-                        <div class="vendas-card-price">R$ 10,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 10,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -323,9 +362,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Boné Casual</div>
-                        <div class="vendas-card-price">R$ 35,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 35,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -337,9 +379,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Cinto Couro</div>
-                        <div class="vendas-card-price">R$ 45,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 45,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -351,9 +396,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Chinelo Slide</div>
-                        <div class="vendas-card-price">R$ 30,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 30,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -365,9 +413,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Bermuda Moletom</div>
-                        <div class="vendas-card-price">R$ 40,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 40,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -379,9 +430,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Blazer Social</div>
-                        <div class="vendas-card-price">R$ 150,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 150,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
@@ -393,9 +447,12 @@
                 <div class="vendas-card-info">
                     <div>
                         <div class="vendas-card-title">Macacão Jeans</div>
-                        <div class="vendas-card-price">R$ 95,00</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="vendas-card-price">R$ 95,00</span>
+                        </div>
                     </div>
                     <div class="vendas-card-actions">
+                        <img src="assets/img/dropw.svg" alt="Mais opções" style="width:18px; vertical-align: middle;">
                         <button class="icon-btn"><img src="assets/img/carrinho.svg" alt="Carrinho" style="width:28px;"></button>
                     </div>
                 </div>
