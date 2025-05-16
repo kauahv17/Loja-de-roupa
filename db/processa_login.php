@@ -17,8 +17,11 @@
         $senha_formulario = sha1("{$_POST['senha']}{$_POST['email']}");
         //recuperação da senha do banco de dados
         $row = mysqli_fetch_array($res);
-        $senha_bd = $row[5];
+        $senha_bd = $row[4];
         $idfuncionario = $row[0];
+        $cargo = $row[5];
+       
+
         //testar se as senhas são iguais
         if($senha_formulario == $senha_bd){//senha OK
             //autenticar o usuário
@@ -29,15 +32,15 @@
             $_SESSION['idfuncionario'] = $idfuncionario;
             $_SESSION ['cargo'] = $cargo;
             $_SESSION['nome'] = $nome;
-            if($cargo == 0){
-                
-                echo "<meta http-equiv='refresh' content='0;url=menu_gerente.php'>
-            <script type='text/javascript'>alert('Bem-vindo $nome!');</script>";
-            } else {
-                echo "<meta http-equiv='refresh' content='0;url=menu_funcionario.php'>
-            <script type='text/javascript'>alert('Bem-vindo $nome!');</script>";
-            }
             
+            if ($cargo === 'gerente') {
+                //****Direcionamento para a página home do gerente OBS: Adicionar as páginas de menu gerente 
+               header("Location: ../paginas/home.php");
+            } else {
+                //****Direcionamento para a página home do funcionário OBS: Adicionar as páginas de menu funcionário 
+                header("Location: ../paginas/home.php");
+            }
+
         }else{//ERRO - Senha incorreta
             echo "<meta http-equiv='refresh' content='0;url=index.php'>
             <script type='text/javascript'>alert('Senha incorreta!');</script>";

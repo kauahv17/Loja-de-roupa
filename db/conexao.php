@@ -2,9 +2,9 @@
 
     //configurar a conexão
     $host = "localhost";
-    $user = "";
+    $user = "root";
     $password = "";
-    $database = "";
+    $database = "loja";
 
     //abrir a conexão
     $conn =  mysqli_connect($host,$user,$password,$database);
