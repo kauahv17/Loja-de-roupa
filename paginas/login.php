@@ -16,9 +16,6 @@
                 <h1>Bem-vindo à<br>Moda Elegante</h1>
             </div>
             <div class="login-right">
-                <div class="settings-icon">
-                    <img src="assets/img/gear.svg" alt="Configurações">
-                </div>
                 <form class="login-form" action="db/processa_login.php" method="POST">
                     <h2>Login</h2>
                     <input type="text" name="email" placeholder="email" required>

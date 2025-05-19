@@ -26,17 +26,17 @@
                 </h1>
             </div>
             <div class="login-right">
-                <div class="settings-icon">
+                <div class="settings-icon right">
                     <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
                 </div>
-                <div class="login-form" style="margin-top: 25vh; gap: 18px;">
+                <div class="login-form"">
                     <a href="/Loja-de-roupa/paginas/vendas.php"><button class="home-button">Realizar venda</button></a>
                     <a href="/Loja-de-roupa/paginas/relatorio_vendas.php"><button class="home-button">Relatório de venda</button></a>
                     <?php
                         if ($_SESSION['cargo'] == 'gerente') {
-                            echo '<button class="home-button">Funcionários</button>';
-                            echo '<button class="home-button">Estoque</button>';
-                            echo '<button class="home-button">Fornecedores</button>';
+                            echo '<a href="/Loja-de-roupa/paginas/funcionarios.php"><button class="home-button">Funcionários</button></a>';
+                            echo '<a href="/Loja-de-roupa/paginas/estoque.php"><button class="home-button">Estoque</button></a>';
+                            echo '<a href="/Loja-de-roupa/paginas/fornecedores.php"><button class="home-button">Fornecedores</button></a>';
                         }
                     ?>
                 </div>

@@ -6,7 +6,7 @@
     <title>Relatório de vendas</title>
 </head>
 <body>
-    <h1>Relatório de vendas</h1>
+    <h1 style="color:#3C3E40;">Relatório de vendas</h1>
     <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
 </body>
 </html>
