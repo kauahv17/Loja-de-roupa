@@ -16,7 +16,7 @@
         <img src="/Loja-de-roupa/assets/img/bg-circles.svg" alt="Fundo" class="bg-circles-img">
         <div class="login-main">
             <div class="login-left">
-                <h1>Home<br><?php
+                <h1 class="h1-left">Home<br><?php
                         if ($_SESSION['cargo'] == 'gerente') {
                             echo 'Gerente';
                         } else {

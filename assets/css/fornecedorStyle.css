@@ -13,13 +13,6 @@
     position: relative;
 }
 
-.fornecedor-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0 auto;
-    color: #3C3E40 !important;
-}
-
 .fornecedor-search {
     margin: 32px 0 24px 0;
     display: flex;
@@ -59,7 +52,7 @@
 
 .fornecedor-card {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     background: #e5e5e5;
     border-radius: 18px;
     padding: 8px 25px;
@@ -70,42 +63,22 @@
     gap: 25px;
 }
 
-
 .fornecedor-card-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex: 1;
     margin-left: 18px;
+    padding: 12px 0;
+    gap: 10px;
 }
 
-.fornecedor-card-title,
-.fornecedor-card-fornecedor {
+.fornecedor-card-title {
     font-size: 1.1rem;
     font-weight: 500;
     color: #222;
 }
 
-
-.fornecedor-card-fornecedor {
-    min-width: 220px;
-    text-align: right;
-    margin-right: 18px;
-}
-
-.fornecedor-card-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
 .fornecedor-card-cnpj {
     font-weight: normal;
 }
-
-.fornecedor-card-actions .dropdown {
-    width: 28px;
-    vertical-align: middle;
-    cursor: pointer;
-}
-

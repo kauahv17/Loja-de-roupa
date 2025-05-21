@@ -13,11 +13,11 @@
         <img src="assets/img/bg-circles.svg" alt="Fundo" class="bg-circles-img">
         <div class="login-main">
             <div class="login-left">
-                <h1>Bem-vindo à<br>Moda Elegante</h1>
+                <h1 class="h1-left">Bem-vindo à<br>Moda Elegante</h1>
             </div>
             <div class="login-right">
                 <form class="login-form" action="db/processa_login.php" method="POST">
-                    <h2>Login</h2>
+                    <h2 class="h2-right">Login</h2>
                     <input type="text" name="email" placeholder="email" required>
                     <input type="password" name="senha" placeholder="senha" required>
                     <button type="submit">Entrar</button>

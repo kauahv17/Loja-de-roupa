@@ -5,7 +5,7 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.login-bg {
+.cadastro-bg {
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -28,7 +28,7 @@ body {
     pointer-events: none;
 }
 
-.login-main {
+.cadastro-main {
     position: relative;
     width: 100vw;
     height: 100vh;
@@ -38,7 +38,7 @@ body {
     z-index: 2;
 }
 
-.login-left {
+.cadastro-left {
     flex: 1;
     display: flex;
     align-items: flex-start;
@@ -49,72 +49,31 @@ body {
     position: relative;
 }
 
-.h1-left {
-    color: #F2F2F2 !important;
-    font-size: 50px;
-    font-weight: bold;
-    line-height: 1.2;
-    position: relative;
-    z-index: 3;
-    margin-top: 25vh;
-    text-align: left;
-}
-
-.h1-right {
-    color: #3C3E40 !important;
-    font-size: 1.4rem !important;
-    font-weight: bold;
-    margin: 0 auto;
-    margin-bottom: 10px;
-}
-
-.login-right {
+.cadastro-right {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     height: 100vh;
     min-width: 400px;
     position: relative;
 }
 
-.settings-icon {
-    position: absolute;
-    top: 72px;
-    z-index: 3;
-}
-
-.settings-icon img {
-    width: 51px;
-    height: 51px;
-    cursor: pointer;
-}
-
-.settings-icon.left {
-    left: 60px;
-}
-
-.settings-icon.right {
-    right: 75px;
-    display: flex;
-    gap: 30px;
-}
-
-.login-form {
+.cadastro-form {
     background: none;
     display: flex;
     flex-direction: column;
     gap: 18px;
     width: 320px;
-    margin-top: 25vh;
+    margin-top: 25%;
 }
 
-.login-form h2 {
+.cadastro-form h2 {
     margin-bottom: 5px;
 }
 
-.login-form input {
+.cadastro-form input {
     background: #D9D9D9;
     border: none;
     border-radius: 14px;
@@ -123,13 +82,14 @@ body {
     color: #3C3E40;
     outline: none;
     transition: box-shadow 0.2s;
+
 }
 
-.login-form input:focus {
+.cadastro-form input:focus {
     box-shadow: 0 0 0 2px #D97904;
 }
 
-.login-form button {
+.cadastro-form button {
     background: #D97904;
     color: #fff;
     border: none;
@@ -141,40 +101,25 @@ body {
     transition: background 0.2s;
 }
 
-.login-form button:hover {
+.cadastro-form button:hover {
     background: #b86a0a;
 }
 
+/* Estilos específicos para a página de cadastro */
+.h2-right {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Ajustes específicos para o formulário de cadastro */
+.login-form {
+    margin-top: 15vh;
+}
+
+/* Responsividade específica para cadastro */
 @media (max-width: 1000px) {
-    .login-main {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-    }
-
-    .login-left {
-        padding-left: 24px;
-        justify-content: center;
-        height: auto;
-        margin-top: 40px;
-    }
-
-    .login-right {
-        padding-right: 0;
-        align-items: center;
-        min-width: unset;
-        height: auto;
-        margin-bottom: 40px;
-    }
-
-    .bg-circles-img {
-        width: 100vw;
-        height: 40vh;
-        min-width: unset;
-    }
-
     .login-form {
-        width: 90vw;
-        min-width: 0;
+        margin-top: 10vh;
     }
 }

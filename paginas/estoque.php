@@ -18,7 +18,7 @@
     </div>
     <div class="estoque-container">
         <div class="estoque-header">
-            <div class="estoque-title">Estoque</div>
+            <div class="h1-right">Estoque</div>
         </div>
         <form class="estoque-search">
             <input type="text" placeholder="pesquisa" name="pesquisa">

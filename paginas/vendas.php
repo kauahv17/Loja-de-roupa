@@ -18,7 +18,7 @@
     </div>
     <div class="vendas-container">
         <div class="vendas-header">
-            <div class="vendas-title">Vendas</div>
+            <div class="h1-right">Vendas</div>
         </div>
         <form class="vendas-search">
             <input type="text" placeholder="pesquisa" name="pesquisa">

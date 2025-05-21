@@ -13,11 +13,12 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
+        <a href="/Loja-de-roupa/cadastro_fornecedor.php"><img src="/Loja-de-roupa/assets/img/add_forn.svg" alt="Adicionar"></a>
         <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="fornecedor-container">
         <div class="fornecedor-header">
-            <div class="fornecedor-title">Fornecedores</div>
+            <div class="h1-right">Fornecedores</div>
         </div><br><br>
         <form class="fornecedor-search">
             <input type="text" placeholder="pesquisa" name="pesquisa">
@@ -41,7 +42,7 @@
             <div class="fornecedor-card">
                 
                 <div class="fornecedor-card-info">
-                    <div class="fornecedor-card-title"><?php echo $row['nome_f']; ?></div><br>
+                    <div class="fornecedor-card-title"><?php echo $row['nome_f']; ?></div>
                     <div class="fornecedor-card-cnpj">cnpj: <?php echo $row['cnpj']; ?></div>
                 </div>
                 

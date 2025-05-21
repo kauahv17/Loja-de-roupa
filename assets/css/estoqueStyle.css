@@ -13,13 +13,6 @@
     position: relative;
 }
 
-.estoque-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0 auto;
-    color: #3C3E40 !important;
-}
-
 .estoque-search {
     margin: 32px 0 24px 0;
     display: flex;
