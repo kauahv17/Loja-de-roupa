@@ -12,8 +12,8 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="cadastro.php"><img src="/Loja-de-roupa/assets/img/add_func.svg" alt="Adicionar"></a>
-        <a href="../index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
+        <a href="cadastro_func.php"><img src="../assets/img/add_func.svg" alt="Adicionar"></a>
+        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="funcionario-container">
         <div class="funcionario-header">

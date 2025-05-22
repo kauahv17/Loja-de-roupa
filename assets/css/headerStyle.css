@@ -4,6 +4,10 @@
     border-radius: 12px 12px 0 0;
     box-sizing: border-box;
     margin-bottom: 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 .header-menu-bar {
@@ -22,6 +26,10 @@
     flex: 1;
     justify-content: center;
     height: 100%;
+}
+
+.header-categorias a {
+    text-decoration: none;
 }
 
 .header-categoria {

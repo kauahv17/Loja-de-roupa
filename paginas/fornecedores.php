@@ -13,8 +13,8 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="/Loja-de-roupa/cadastro_fornecedor.php"><img src="/Loja-de-roupa/assets/img/add_forn.svg" alt="Adicionar"></a>
-        <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
+        <a href="cadastro_forn.php"><img src="../assets/img/add_forn.svg" alt="Adicionar"></a>
+        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="fornecedor-container">
         <div class="fornecedor-header">

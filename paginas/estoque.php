@@ -1,3 +1,26 @@
+<?php
+    session_start();
+    include 'header.php';
+
+    // Recebe o valor da pesquisa e da categoria
+    $pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
+    $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+
+    include_once '../db/conexao.php';
+    $where = '';
+    if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
+        $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
+        $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
+    }
+    if (isset($_GET['categoria']) && $_GET['categoria'] != '') {
+        $categoria = mysqli_real_escape_string($conn, $_GET['categoria']);
+        if ($where == '') {
+            $where = "WHERE tipo_produto.tipo = '$categoria'";
+        } else {
+            $where .= " AND tipo_produto.tipo = '$categoria'";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,12 +32,12 @@
     <link rel="stylesheet" href="../assets/css/estoqueStyle.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
     <div class="settings-icon left">
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
+        <a href="cadastro_prod.php"><img src="../assets/img/add_prod.svg" alt="adicionar"></a>
+        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="estoque-container">
         <div class="estoque-header">
@@ -26,21 +49,16 @@
         </form>
         <div class="estoque-lista">
             <?php
-            include_once '../db/conexao.php';
-            $where = '';
-            if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
-                $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
-                $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%' OR fornecedor.nome LIKE '%$pesquisa%'";
-            }
-            $sql = "SELECT produto.nome AS nome_p,
-                            tipo_produto.tipo,
-                            produto.preco_uni,
-                            fornecedor.nome AS nome_f,
-                            fornecedor.cnpj
-                            FROM produto
-                            JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto
-                            JOIN produtos_fornecidos pf ON produto.idproduto = pf.idproduto
-                            JOIN fornecedor ON pf.idfornecedor = fornecedor.idfornecedor $where";
+                $sql = "SELECT
+                        produto.nome AS nome_p,
+                        tipo_produto.tipo,
+                        produto.preco_uni,
+                        fornecedor.nome AS nome_f,
+                        fornecedor.cnpj
+                        FROM produto
+                        JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto
+                        JOIN produtos_fornecidos pf ON produto.idproduto = pf.idproduto
+                        JOIN fornecedor ON pf.idfornecedor = fornecedor.idfornecedor $where";
             $result = mysqli_query($conn, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {

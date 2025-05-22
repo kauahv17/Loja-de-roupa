@@ -1,3 +1,26 @@
+<?php
+    session_start();
+    include 'header.php';
+
+    // Recebe o valor da pesquisa e da categoria
+    $pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
+    $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+
+    include_once '../db/conexao.php';
+    $where = '';
+    if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
+        $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
+        $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
+    }
+    if (isset($_GET['categoria']) && $_GET['categoria'] != '') {
+        $categoria = mysqli_real_escape_string($conn, $_GET['categoria']);
+        if ($where == '') {
+            $where = "WHERE tipo_produto.tipo = '$categoria'";
+        } else {
+            $where .= " AND tipo_produto.tipo = '$categoria'";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,12 +32,12 @@
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
     <div class="settings-icon left">
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
+        <a href="cadastro_cliente.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
+        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="vendas-container">
         <div class="vendas-header">
@@ -26,20 +49,14 @@
         </form>
         <div class="vendas-lista">
             <?php 
-                include_once '../db/conexao.php';
-                $where = '';
-                if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
-                    $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
-                    $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
-                }
                 $sql = "SELECT 
-                            produto.nome,
-                            produto.preco_uni,
-                            produto.cor,
-                            produto.quantidade_estoque,
-                            tipo_produto.tipo AS tipo
-                            FROM produto 
-                            JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto $where";
+                        produto.nome,
+                        produto.preco_uni,
+                        produto.cor,
+                        produto.quantidade_estoque,
+                        tipo_produto.tipo AS tipo
+                        FROM produto 
+                        JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto $where";
                 $result = mysqli_query($conn, $sql);
                 if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -59,7 +76,7 @@
                     <div class="vendas-card-actions">
                         <img src="../assets/img/dropw.svg" alt="Mais opções" class="dropdown">
                         <button class="icon-btn">
-                            <img src="../assets/img/carrinho.svg" alt="Carrinho" class="cart">
+                            <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
                         </button>
                     </div>
                 </div>

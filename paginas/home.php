@@ -7,15 +7,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="/Loja-de-roupa/assets/css/homeStyle.css">
-    <link rel="stylesheet" href="/Loja-de-roupa/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/formStyle.css">
+    <link rel="stylesheet" href="../assets/css/homeStyle.css">
 </head>
 
 <body>
-    <div class="login-bg">
-        <img src="/Loja-de-roupa/assets/img/bg-circles.svg" alt="Fundo" class="bg-circles-img">
-        <div class="login-main">
-            <div class="login-left">
+    <div class="form-bg">
+        <img src="../assets/img/bg-circles.svg" alt="Fundo" class="bg-circles-img">
+        <div class="form-main">
+            <div class="form-left">
                 <h1 class="h1-left">Home<br><?php
                         if ($_SESSION['cargo'] == 'gerente') {
                             echo 'Gerente';
@@ -25,18 +26,18 @@
                     ?>
                 </h1>
             </div>
-            <div class="login-right">
+            <div class="form-right">
                 <div class="settings-icon right">
-                    <a href="/Loja-de-roupa/index.php"><img src="/Loja-de-roupa/assets/img/gear.svg" alt="Configurações"></a>
+                    <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
-                <div class="login-form"">
-                    <a href="/Loja-de-roupa/paginas/vendas.php"><button class="home-button">Realizar venda</button></a>
-                    <a href="/Loja-de-roupa/paginas/relatorio_vendas.php"><button class="home-button">Relatório de venda</button></a>
+                <div class="form-form">
+                    <a href="vendas.php"><button class="home-button">Realizar venda</button></a>
+                    <a href="relatorio_vendas.php"><button class="home-button">Relatório de venda</button></a>
                     <?php
                         if ($_SESSION['cargo'] == 'gerente') {
-                            echo '<a href="/Loja-de-roupa/paginas/funcionarios.php"><button class="home-button">Funcionários</button></a>';
-                            echo '<a href="/Loja-de-roupa/paginas/estoque.php"><button class="home-button">Estoque</button></a>';
-                            echo '<a href="/Loja-de-roupa/paginas/fornecedores.php"><button class="home-button">Fornecedores</button></a>';
+                            echo '<a href="funcionarios.php"><button class="home-button">Funcionários</button></a>';
+                            echo '<a href="estoque.php"><button class="home-button">Estoque</button></a>';
+                            echo '<a href="fornecedores.php"><button class="home-button">Fornecedores</button></a>';
                         }
                     ?>
                 </div>

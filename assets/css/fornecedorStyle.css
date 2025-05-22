@@ -1,5 +1,4 @@
 .fornecedor-container {
-    padding: 32px 48px;
     height: 100vh;
     box-sizing: border-box;
     overflow-y: auto;
@@ -11,6 +10,9 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 999;
+    margin-top: 3.5%;
+    margin-bottom: -14px;
 }
 
 .fornecedor-search {

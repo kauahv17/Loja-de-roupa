@@ -11,15 +11,10 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 999;
+    margin-top: 2%;
+    margin-bottom: 3%;
 }
-
-.funcionario-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0 auto;
-    color: #3C3E40 !important;
-}
-
 
 .funcionario-search {
     margin: 32px 0 24px 0;

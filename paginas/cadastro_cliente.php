@@ -6,27 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/cadastroStyle.css">
+    <link rel="stylesheet" href="../assets/css/formStyle.css">
 </head>
 
 <body>
-    <div class="login-bg">
+    <div class="form-bg">
         <img src="../assets/img/bg-circles.svg" alt="Fundo" class="bg-circles-img">
-        <div class="login-main">
-            <div class="login-left">
-                <h1 class="h1-left">Cadastro<br>de funcionário</h1>
+        <div class="form-main">
+            <div class="form-left">
+                <h1 class="h1-left">Cadastro<br>de cliente</h1>
             </div>
-            <div class="login-right">
+            <div class="form-right">
                 <div class="settings-icon right">
-                    <a href="funcionarios.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
+                    <a href="vendas.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
                     <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
-                <form class="cadastro-form" action="../db/processa_cadastro.php" method="POST">
+                <form class="form-form" action="../db/processa_cadastro.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
                     <input type="text" name="cpf" placeholder="cpf" required>
-                    <input type="text" name="email" placeholder="email" required>
-                    <input type="password" name="senha" placeholder="senha" required>
+                    <input type="text" name="telefone" placeholder="telefone" required>
                     <button type="submit">Cadastrar</button>
                 </form>
             </div>

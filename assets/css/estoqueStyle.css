@@ -1,9 +1,10 @@
 .estoque-container {
     padding: 32px 48px;
-    height: 100vh;
+    height: calc(100vh - 100px);
     box-sizing: border-box;
     overflow-y: auto;
     position: relative;
+    margin-top: 5%;
 }
 
 .estoque-header {
@@ -11,6 +12,8 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 999;
+    margin-bottom: 3.5%;
 }
 
 .estoque-search {
@@ -120,5 +123,5 @@
 }
 
 .settings-icon {
-    top: 130px;
+    margin-top: 3%;
 }
