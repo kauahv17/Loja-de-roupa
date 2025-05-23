@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,7 +16,7 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="cadastro_forn.php"><img src="../assets/img/add_forn.svg" alt="Adicionar"></a>
+        <a href="../db/processa_fornecedor.php"><img src="../assets/img/add_forn.svg" alt="Adicionar"></a>
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="fornecedor-container">
