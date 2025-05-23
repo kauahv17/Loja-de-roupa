@@ -29,6 +29,7 @@
                     <input type="text" name="nome" placeholder="nome" required>
                     <input type="text" name="cpf" placeholder="cpf" required>
                     <input type="text" name="email" placeholder="email" required>
+                    <input type="text" name="cargo" placeholder="Cargo" required>
                     <input type="password" name="senha" placeholder="senha" required>
                     <button type="submit">Cadastrar</button>
                 </form>
