@@ -10,6 +10,7 @@
     <title>Cadastro</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/formStyle.css">
+    <link rel="stylesheet" href="../assets/css/selectStyle.css">
 </head>
 
 <body>
@@ -24,14 +25,34 @@
                     <a href="estoque.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
                     <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
-                <form class="form-form" action="../db/processa_cadastro.php" method="POST">
+                <form class="form-form" action="../db/processa_produto.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
                     <input type="text" name="quantidade" placeholder="quantidade" required>
-                    <input type="text" name="preço" placeholder="preço" required>
+                    <input type="text" name="preco" placeholder="preço" required>
                     <input type="text" name="cor" placeholder="cor" required>
                     <input type="text" name="tipo" placeholder="tipo" required>
-                    <button type="submit">Cadastrar</button>
+                    <input type="date" name="data_fornecimento" required>
+                    <input type="text" name="preco_for" placeholder="Preço Fornecedor" required>
+                    <input type="text" name="quantidade_for" placeholder="Quantidade Fornecida" required>
+                    <!-- Fornecedor -->
+                        <select name="idfornecedor" required>
+                            <option value="">Selecione o fornecedor</option>
+                            <?php
+                                include_once("../db/conexao.php");
+                                $sql = "SELECT idfornecedor, nome FROM fornecedor";
+                                $result = mysqli_query($conn, $sql);
+    
+                            if($result){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    echo "<option value='{$row['idfornecedor']}'>{$row['nome']}</option>";
+                                }
+                            } else {
+                                echo "<option value=''>Erro ao carregar fornecedores</option>";
+                            }
+                            ?>
+                        </select>
+                    <button type="submit">Cadastrar</button><br>
                 </form>
             </div>
         </div>

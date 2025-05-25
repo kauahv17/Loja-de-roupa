@@ -1,41 +1,29 @@
 <?php
-    //incluir a conexão com o BD
-    include_once("./conexao.php");
-    //recuperar os dados do formulário de Fornecedores
-    $nome = $_POST['nome'];
-    $cnpj = $_POST['cnpj'];
-    //verificar se o fornecedor existe
-    $sql_fornecedor = "SELECT * FROM fornecedor WHERE cnpj = '$cnpj'; ";
-    $res = mysqli_query($conn, $sql_funcionario);
+session_start();
+include_once("./conexao.php");
 
-    if( mysqli_num_rows($res) === 0 ){//fornecedor não existe
-        $row = mysqli_fetch_array($res);
+if (isset($_POST['nome'], $_POST['cnpj'])) {
+    
+    $nome = mysqli_real_escape_string($conn, $_POST['nome']);
+    $cnpj = mysqli_real_escape_string($conn, $_POST['cnpj']);
+    
+    $dados_fornecedor = "INSERT INTO fornecedor(nome, cnpj) 
+        VALUES ('$nome', '$cnpj')";
 
-        //criar o SQL que insere o usuário
-        $dados_fornecedor = "INSERT INTO fornecedor(nome, cnpj) VALUES('$nome', '$cnpj');";
-        $res = mysqli_query($conn, $dados_fornecedor);
-        if( mysqli_affected_rows($conn) > 0 ){//Executou OK 
-            //abrir a sessão
-            session_start();
-            $_SESSION['idfornecedor'] = $row['idfornecedor'];
-            $_SESSION ['nome'] = $row['nome'];
-            $_SESSION['cnpj'] = $row['cnpj'];
-
-
-            if($res){//OK
-                echo "<meta http-equiv='refresh' content='0;url=index.php'>
-                <script type='text/javascript'>alert('Fornecedor cadastrado!');</script>";
-            }else{//ERRO
-                echo "<meta http-equiv='refresh' content='0;url=index.php'>
-                <script type='text/javascript'>alert('Erro ao cadastrar o Fornecedor');</script>";
-            }
-        
-            //Direcionamento para a página fornecedores 
-            header("Location: ../paginas/fornecedores.php");
-            
-        }
-    }else{//usuário existe
-        echo "<meta http-equiv='refresh' content='0;url=index.php'>
-            <script type='text/javascript'>alert('Esse fornecedor ja existe');</script>";
+    if (mysqli_query($conn, $dados_fornecedor)) {
+        $_SESSION['msg'] = "Fornecedor cadastrado com sucesso!";
+        $_SESSION['origem'] = "cadastro_forn.php";
+        header("Location: ../paginas/fornecedores.php");
+        exit;
+    } else {
+        $_SESSION['msg'] = "Erro ao cadastrar fornecedor: " . mysqli_error($conn);
+        $_SESSION['origem'] = "cadastro_forn.php";
+        header("Location: ../paginas/cadastro_forn.php");
+        exit;
     }
+
+} else {
+    echo "Preencha todos os campos!";
+}
+ 
 ?>

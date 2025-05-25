@@ -47,6 +47,9 @@
     gap: 18px;
     width: 320px;
     margin-top: 25%;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .form-form h2 {

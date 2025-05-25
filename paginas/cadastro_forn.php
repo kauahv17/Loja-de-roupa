@@ -21,7 +21,7 @@
                     <a href="fornecedores.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
                     <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
-                <form class="form-form" action="../db/processa_cadastro.php" method="POST">
+                <form class="form-form" action="../db/processa_fornecedor.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
                     <input type="text" name="cnpj" placeholder="cnpj" required>
