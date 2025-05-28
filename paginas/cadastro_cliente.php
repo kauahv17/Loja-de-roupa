@@ -19,7 +19,7 @@
             </div>
             <div class="form-right">
                 <div class="settings-icon right">
-                    <a href="vendas.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
+                    <a href="carrinho.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
                     <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
                 <form class="form-form" action="../db/processa_cliente.php" method="POST">

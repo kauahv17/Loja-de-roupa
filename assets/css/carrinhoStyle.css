@@ -1,0 +1,132 @@
+
+.cadastrar{
+    width: 250px;
+    padding: 10px;
+    background-color: #d97706; /* mesma cor laranja */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cadastrar:hover {
+    background-color: #b45309; /* tom mais escuro no hover */
+}
+
+.carrinho-container {
+    padding: 32px 48px;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: relative;
+}
+
+.carrinho-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 999;
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
+
+.carrinho-search {
+    margin: 32px 0 24px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.carrinho-search input {
+    width: 900px;
+    max-width: 100%;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.carrinho-search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+.carrinho-lista {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 24px;
+    justify-content: center;
+}
+
+.carrinho-card {
+    background: #f2f2f2;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.carrinho-card-img {
+    background: #d9d9d9;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrinho-card-info {
+    background: #e88c1a;
+    color: #fff;
+    padding: 18px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+.carrinho-card-title {
+    font-weight: bold;
+    margin-bottom: 7px;
+    font-size: 1.1rem;
+}
+
+.carrinho-card-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.carrinho-card-img img {
+    width: 60px;
+}
+
+
+.carrinho-search-btn img {
+    width: 22px;
+
+}
+
+.carrinho-card-actions img {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.carrinho-card-actions a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -37,7 +37,7 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="cadastro_cliente.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
+        <a href="carrinho.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
     <div class="vendas-container">

@@ -14,7 +14,7 @@ if (isset($_POST['nome'], $_POST['cpf'], $_POST['telefone'])) {
     if (mysqli_query($conn, $dados_cliente)) {
         $_SESSION['msg'] = "cliente cadastrado com sucesso!";
         $_SESSION['origem'] = "cadastro_cliente.php";
-        header("Location: ../paginas/cadastro_cliente.php");
+        header("Location: ../paginas/carrinho.php");
         exit;
     } else {
         $_SESSION['msg'] = "Erro ao cadastrar cliente: " . mysqli_error($conn);
