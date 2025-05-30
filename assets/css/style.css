@@ -59,11 +59,11 @@ body {
 }
 
 .settings-icon.left {
-    left: 75px;
+    left: 45px;
 }
 
 .settings-icon.right {
-    right: 75px;
+    right: 45px;
     display: flex;
     gap: 30px;
 }

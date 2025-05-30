@@ -4,18 +4,17 @@ include_once("conexao.php");
 
 // Receber os dados do formulário
 $nome = mysqli_real_escape_string($conn, $_POST['nome']);
-$quantidade = (int) $_POST['quantidade'];
+//$quantidade = (int) $_POST['quantidade'];
 $preco = (float) $_POST['preco'];
 $cor = mysqli_real_escape_string($conn, $_POST['cor']);
 $tipo = (int) $_POST['tipo'];
-$idtamanho = !empty($_POST['idtamanho']) ? (int) $_POST['idtamanho'] : null;
 $preco_for = (float) $_POST['preco_for'];
 $quantidade_for = (int) $_POST['quantidade_for'];
 $idfornecedor = (int) $_POST['idfornecedor'];
 
 // Inserir o produto na tabela produto
-$dados_produto = "INSERT INTO produto (nome, quantidade_estoque, preco_uni, cor, idtamanho, idtipo_produto) 
-                VALUES ('$nome', $quantidade, $preco, '$cor', " . ($idtamanho !== null ? $idtamanho : 'NULL') . ", $tipo)";
+$dados_produto = "INSERT INTO produto (nome, quantidade_estoque, preco_uni, cor, idtipo_produto) 
+                VALUES ('$nome', $quantidade_for, $preco, '$cor', $tipo)";
 
 if (mysqli_query($conn, $dados_produto)) {
     // Pegar o id do produto recém-inserido

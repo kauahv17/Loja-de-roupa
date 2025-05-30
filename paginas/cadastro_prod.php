@@ -13,7 +13,6 @@
     <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/formStyle.css">
-    <link rel="stylesheet" href="../assets/css/selectStyle.css">
 </head>
 
 <body>
@@ -32,32 +31,11 @@
                 <form class="form-form" action="../db/processa_produto.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
-                    <input type="number" name="quantidade" placeholder="quantidade" required>
+                    <!-- <input type="number" name="quantidade" placeholder="quantidade" required>-->
                     <input type="number" name="preco" id="preco" placeholder="preço" step="1" min="0" required>
-                    <select name="idtamanho">
-                            <option value="">Selecione o tamanho</option>
-                            <?php
-                                include_once("../db/conexao.php");
-
-                                $sql = "SELECT * FROM tamanho";
-                                $result = mysqli_query($conn, $sql);
-
-                                if($result){
-                                    if(mysqli_num_rows($result) > 0){
-                                        while($row = mysqli_fetch_assoc($result)){
-                                            echo "<option value='{$row['idtamanho']}'>{$row['descricao']}</option>";
-                                        }
-                                    } else {
-                                        echo "<option value=''>Nenhum tamanho cadastrado</option>";
-                                    }
-                                } else {
-                                    echo "<option value=''>Erro: " . mysqli_error($conn) . "</option>";
-                                }
-                            ?>
-                    </select>
                     <input type="text" name="cor" placeholder="cor" required>
                     <select name="tipo" required>
-                            <option value="">Selecione o tipo</option>
+                            <option value="">selecione o tipo</option>
                             <?php
                                 
                                 $sql = "SELECT idtipo_produto, tipo FROM tipo_produto";
@@ -73,11 +51,11 @@
                             ?>
                     </select>
                     
-                    <input type="number" name="preco_for" placeholder="Preço Fornecedor" step="1" min="0" required>
-                    <input type="number" name="quantidade_for" placeholder="Quantidade Fornecida" required>
+                    <input type="number" name="preco_for" placeholder="preço fornecedor" step="1" min="0" required>
+                    <input type="number" name="quantidade_for" placeholder="quantidade fornecida" required>
                     <!-- Fornecedor -->
                         <select name="idfornecedor" required>
-                            <option value="">Selecione o fornecedor</option>
+                            <option value="">selecione o fornecedor</option>
                             <?php
                                 
                                 $sql = "SELECT idfornecedor, nome FROM fornecedor";
