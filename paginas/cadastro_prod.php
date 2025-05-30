@@ -29,13 +29,28 @@
                 <form class="form-form" action="../db/processa_produto.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
-                    <input type="text" name="quantidade" placeholder="quantidade" required>
-                    <input type="text" name="preco" placeholder="preço" required>
+                    <input type="number" name="quantidade" placeholder="quantidade" required>
+                    <input type="number" name="preco" id="preco" placeholder="preço" step="1" min="0" required>
                     <input type="text" name="cor" placeholder="cor" required>
-                    <input type="text" name="tipo" placeholder="tipo" required>
-                    <input type="date" name="data_fornecimento" required>
-                    <input type="text" name="preco_for" placeholder="Preço Fornecedor" required>
-                    <input type="text" name="quantidade_for" placeholder="Quantidade Fornecida" required>
+                    <select name="tipo" required>
+                            <option value="">Selecione o tipo</option>
+                            <?php
+                                include_once("../db/conexao.php");
+                                $sql = "SELECT idtipo_produto, tipo FROM tipo_produto";
+                                $result = mysqli_query($conn, $sql);
+    
+                            if($result){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    echo "<option value='{$row['idtipo_produto']}'>{$row['tipo']}</option>";
+                                }
+                            } else {
+                                echo "<option value=''>Erro ao carregar tipo de produto</option>";
+                            }
+                            ?>
+                    </select>
+                    
+                    <input type="number" name="preco_for" placeholder="Preço Fornecedor" step="1" min="0" required>
+                    <input type="number" name="quantidade_for" placeholder="Quantidade Fornecida" required>
                     <!-- Fornecedor -->
                         <select name="idfornecedor" required>
                             <option value="">Selecione o fornecedor</option>

@@ -17,7 +17,7 @@
         if ($where == '') {
             $where = "WHERE tipo_produto.tipo = '$categoria'";
         } else {
-            $where .= " AND tipo_produto.tipo = '$categoria'";
+            $where = " AND tipo_produto.tipo = '$categoria'";
         }
     }
 ?>

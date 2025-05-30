@@ -39,11 +39,11 @@
                     <option value="">Selecione o cliente</option>
                     <?php
                         include_once("../db/conexao.php");
-                        $sql = "SELECT idcliente, nome FROM cliente ORDER BY nome ASC";
+                        $sql = "SELECT idcliente, cpf FROM cliente ORDER BY cpf ASC";
                         $result = mysqli_query($conn, $sql);
                         if($result){
                             while($row = mysqli_fetch_assoc($result)){
-                            echo "<option value='{$row['idcliente']}'>{$row['nome']}</option>";
+                            echo "<option value='{$row['idcliente']}'>{$row['cpf']}</option>";
                             }
                         } else {
                             echo "<option value=''>Erro ao carregar clientes</option>";
