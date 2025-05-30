@@ -1,6 +1,8 @@
 <?php
     session_start();
+    include_once("../db/conexao.php");
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -26,16 +28,38 @@
                     <a href="estoque.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
                     <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
                 </div>
+                
                 <form class="form-form" action="../db/processa_produto.php" method="POST">
                     <h2 class="h1-right">preencha os campos a baixo:</h2>
                     <input type="text" name="nome" placeholder="nome" required>
                     <input type="number" name="quantidade" placeholder="quantidade" required>
                     <input type="number" name="preco" id="preco" placeholder="preço" step="1" min="0" required>
+                    <select name="idtamanho">
+                            <option value="">Selecione o tamanho</option>
+                            <?php
+                                include_once("../db/conexao.php");
+
+                                $sql = "SELECT * FROM tamanho";
+                                $result = mysqli_query($conn, $sql);
+
+                                if($result){
+                                    if(mysqli_num_rows($result) > 0){
+                                        while($row = mysqli_fetch_assoc($result)){
+                                            echo "<option value='{$row['idtamanho']}'>{$row['descricao']}</option>";
+                                        }
+                                    } else {
+                                        echo "<option value=''>Nenhum tamanho cadastrado</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Erro: " . mysqli_error($conn) . "</option>";
+                                }
+                            ?>
+                    </select>
                     <input type="text" name="cor" placeholder="cor" required>
                     <select name="tipo" required>
                             <option value="">Selecione o tipo</option>
                             <?php
-                                include_once("../db/conexao.php");
+                                
                                 $sql = "SELECT idtipo_produto, tipo FROM tipo_produto";
                                 $result = mysqli_query($conn, $sql);
     
@@ -55,7 +79,7 @@
                         <select name="idfornecedor" required>
                             <option value="">Selecione o fornecedor</option>
                             <?php
-                                include_once("../db/conexao.php");
+                                
                                 $sql = "SELECT idfornecedor, nome FROM fornecedor";
                                 $result = mysqli_query($conn, $sql);
     
@@ -68,6 +92,7 @@
                             }
                             ?>
                         </select>
+                    
                     <button type="submit">Cadastrar</button><br>
                 </form>
             </div>
