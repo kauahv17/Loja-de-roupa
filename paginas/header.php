@@ -1,6 +1,10 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
+<head>
+    <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
+</head>
+
 <div class="header-container">
     <div class="header-menu-bar">
         <div class="header-categorias">

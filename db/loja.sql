@@ -134,16 +134,16 @@ INSERT INTO cliente (nome, cpf, telefone) VALUES
 INSERT INTO funcionario (nome, cpf, email, senha, cargo) VALUES
 ('gerente', '111', 'gerente@gerente.com', '330cfbb0ddba6bc0d430b56ca93de8e9c1e0571f', 'gerente'),
 ('funcionario', '222', 'funcionario@funcionario.com', '19af83f28ae135d60ce7218681b745172e878533', 'funcionario'),
-('Caio Almeida Trindade', 54823917652, 'caio@cat.com', 'cat123', 'funcionario'),
-('Lucas Pereira Soares', 91284736519, 'lucas@lps.com', 'lps123', 'funcionario'),
-('Marcos Vinicius Oliveira', 17294856301, 'marcos@mvo.com', 'mvo123', 'funcionario'),
-('Bruna Costa Fernandes', 38172649580, 'bruna@bcf.com', 'bcf123', 'funcionario'),
-('Gabriel Mendes Rocha', 64183927548, 'gabriel@gmr.com', 'gmr123', 'funcionario'),
-('Juliana Lima Cardoso', 50391284765, 'juliana@jlc.com', 'jlc123', 'funcionario'),
-('Fernando Araujo Martins', 84912037561, 'fernando@fam.com', 'fam123', 'funcionario'),
-('Larissa Gomes Freitas', 21593847620, 'larissa@lgf.com', 'lgf123', 'funcionario'),
-('Thiago Silva Almeida', 98475126309, 'thiago@tsa.com', 'tsa123', 'funcionario'),
-('Amanda Ribeiro Sousa', 34785216904, 'amanda@ars.com', 'ars123', 'funcionario');
+('Caio Almeida Trindade', 54823917652, 'caio@cat.com', '24d36b0a1e38939beaead8955bd3255a5aab7dc7', 'funcionario'),
+('Lucas Pereira Soares', 91284736519, 'lucas@lps.com', '7a70cacf6c2faab087424533520fe1452c0b1005', 'funcionario'),
+('Marcos Vinicius Oliveira', 17294856301, 'marcos@mvo.com', 'd82918e330a28188a95515135adeb60518355bde', 'funcionario'),
+('Bruna Costa Fernandes', 38172649580, 'bruna@bcf.com', '8157aebc7c5599964915b1727a57ca3d3866ca01', 'funcionario'),
+('Gabriel Mendes Rocha', 64183927548, 'gabriel@gmr.com', '3ce09b652dac2b6b43d2ca20512b4d4615539c00', 'funcionario'),
+('Juliana Lima Cardoso', 50391284765, 'juliana@jlc.com', '318cc57352d4d2477f2cb11cf8912bd96ef6346d', 'funcionario'),
+('Fernando Araujo Martins', 84912037561, 'fernando@fam.com', 'ad2b99dc49c1948b5dd53d055c6fc59608a1e0f3', 'funcionario'),
+('Larissa Gomes Freitas', 21593847620, 'larissa@lgf.com', 'ef55a70875d37a8f1c56a251a545f1f4925df266', 'funcionario'),
+('Thiago Silva Almeida', 98475126309, 'thiago@tsa.com', 'bc1da7701028c9cbd27fab9e57a9cd3ecdd10a95', 'funcionario'),
+('Amanda Ribeiro Sousa', 34785216904, 'amanda@ars.com', '16653cc4ee9201f663ddd70176fff7f7b40c0be7', 'funcionario');
 
 
 -- Inserir 30 produtos (após tipo_produto)

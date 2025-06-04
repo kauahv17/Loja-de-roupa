@@ -10,6 +10,8 @@
     <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/funcionarioStyle.css">
+    <script src="../js/confirmacao_delete.js"></script>
+
 </head>
 <body>
 <div class="settings-icon left">
@@ -36,6 +38,7 @@
                     $where = "WHERE funcionario.cargo = 'funcionario' AND (funcionario.nome LIKE '%$pesquisa%' OR funcionario.cpf LIKE '%$pesquisa%')";
                 }
                 $sql = "SELECT 
+                            funcionario.idfuncionario as id,
                             funcionario.nome,
                             funcionario.cpf,
                             funcionario.email
@@ -54,8 +57,8 @@
                     <div class="funcionario-card-cpf">CPF: <?php echo $row['cpf']; ?></div>
                     <div class="funcionario-card-email">Email: <?php echo $row['email']; ?></div>
                     <div class="funcionario-card-actions">
-                        <a href="cadastro_func.php?"><img src="../assets/img/editar.svg" alt="Editar"></a>
-                        <a href="excluir_funcionario.php?"><img src="../assets/img/lixeira.svg" alt="Excluir"></a>
+                        <a href="cadastro_func.php?id=<?=$row['id'];?>"><img src="../assets/img/editar.svg" alt="Editar"></a>
+                        <a href="../db/deleta_funcionario.php?id=<?=$row['id'];?>" class="delete-funcionario"><img src="../assets/img/lixeira.svg" alt="Excluir"></a>
                     </div>
                 </div>
             </div>

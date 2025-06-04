@@ -37,12 +37,12 @@
             
 
         }else{//ERRO - Senha incorreta
-            echo "<meta http-equiv='refresh' content='0;url=index.php'>
+            echo "<meta http-equiv='refresh' content='0;url=../index.php'>
             <script type='text/javascript'>alert('Senha incorreta!');</script>";
         }
 
     }else{//usuário não existe - ERRO
-        echo "<meta http-equiv='refresh' content='0;url=index.php'>
+        echo "<meta http-equiv='refresh' content='0;url=../index.php'>
             <script type='text/javascript'>alert('Usuário não encontrado!!!');</script>";
     }
 

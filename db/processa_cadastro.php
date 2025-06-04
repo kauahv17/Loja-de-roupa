@@ -2,8 +2,9 @@
 session_start();
 include_once("./conexao.php");
 
+
 if (isset($_POST['nome'], $_POST['cpf'], $_POST['email'], $_POST['senha'], $_POST['cargo'])) {
-    
+
     $nome = mysqli_real_escape_string($conn, $_POST['nome']);
     $cpf = mysqli_real_escape_string($conn, $_POST['cpf']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);

@@ -27,7 +27,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque</title>
-    <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
     <link rel="stylesheet" href="../assets/css/estoqueStyle.css">
@@ -77,7 +76,20 @@
                     <span class="estoque-card-cnpj">cnpj: <?php echo $row['cnpj']; ?></span>
                 </div>
                 <div class="estoque-card-actions">
-                    <img src="../assets/img/drop.svg" alt="Mais opções" class="dropdown">
+                    <div class="dropdown">
+                        <select name="tamanho" required>
+                            <option value=""></option>
+                            <?php
+                            #$tamanhos = ['P', 'PP','M', 'G', 'GG'];
+                            #foreach($tamanhos as $tamanho){ 
+                            #    echo "<option value='{$tamanho}'>{$tamanho}</option>";
+                            #}
+                            for($i=34; $i <= 45; $i++){ 
+                                echo "<option value='{$i}'>{$i}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <?php

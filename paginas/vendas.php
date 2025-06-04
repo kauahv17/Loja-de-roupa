@@ -27,7 +27,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vendas</title>
-    <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/vendasStyle.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
@@ -75,7 +74,20 @@
                         </div>
                     </div>
                     <div class="vendas-card-actions">
-                        <img src="../assets/img/dropw.svg" alt="Mais opções" class="dropdown">
+                        <div class="dropdown">
+                            <select name="tamanho" required>
+                                <option value=""></option>
+                                <?php
+                                #$tamanhos = ['P', 'PP','M', 'G', 'GG'];
+                                #foreach($tamanhos as $tamanho){ 
+                                #    echo "<option value='{$tamanho}'>{$tamanho}</option>";
+                                #}
+                                for($i=34; $i <= 45; $i++){ 
+                                    echo "<option value='{$i}'>{$i}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <button class="icon-btn">
                             <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
                         </button>

@@ -106,20 +106,36 @@
     margin-right: 18px;
 }
 
-.estoque-card-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
 .estoque-card-cnpj {
     font-weight: normal;
 }
 
 .estoque-card-actions .dropdown {
-    width: 28px;
-    vertical-align: middle;
+    width: 70px;
+    height: 40px;
+}
+
+.dropdown select {
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    background-color: #D97904;
+    outline: none;
+    transition: box-shadow 0.2s;
+    color: #f2f2f2;
+
+    text-align: center;
+    padding-left: 25px;
+
     cursor: pointer;
+    appearance: none;
+    background-image: url("../img/dropw.svg");
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 16px;
+
+    width: 100%;
+    height: 65%;
 }
 
 .settings-icon {
