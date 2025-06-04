@@ -61,4 +61,10 @@
             allowClear: true
         });
     });
+    function adicionarAoCarrinho(id, nome, preco, tamanho) {
+    let carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    carrinho.push({ idproduto: id, nome: nome, preco: preco, quantidade: 1, tamanho: tamanho });
+    sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+    alert("Produto adicionado ao carrinho!");
+}
 </script>

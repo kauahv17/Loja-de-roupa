@@ -234,3 +234,66 @@ INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho)
 -- Inserir venda (após pedido)
 INSERT INTO venda (idpedido) VALUES
 (1);
+
+
+-- Pedido 2
+INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
+(120.00, 3, 3, 1);
+
+-- Pedido 3
+INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
+(200.00, 5, 4, 1);
+
+-- Pedido 4
+INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
+(80.00, 2, 5, 1);
+
+-- Pedido 2
+INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
+(2, 2, 1, 35.00, 'M'),
+(2, 3, 2, 45.00, 'G');
+
+-- Pedido 3
+INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
+(3, 4, 3, 38.00, 'M'),
+(3, 5, 2, 42.00, 'G');
+
+-- Pedido 4
+INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
+(4, 6, 1, 50.00, 'P'),
+(4, 7, 1, 30.00, 'M');
+
+-- Venda para Pedido 2
+INSERT INTO venda (idpedido, data_venda) VALUES
+(2, '2025-06-04');
+
+-- Venda para Pedido 3
+INSERT INTO venda (idpedido, data_venda) VALUES
+(3, '2025-06-05');
+
+-- Venda para Pedido 4
+INSERT INTO venda (idpedido, data_venda) VALUES
+(4, '2025-06-06');
+
+UPDATE produto SET quantidade_estoque = 5 WHERE idproduto = 2;
+UPDATE produto SET quantidade_estoque = 8 WHERE idproduto = 3;
+UPDATE produto SET quantidade_estoque = 4 WHERE idproduto = 4;
+UPDATE produto SET quantidade_estoque = 2 WHERE idproduto = 5;
+
+INSERT INTO produtos_fornecidos (idfornecedor, idproduto, preco_for, quantidade) VALUES
+(2, 3, 270.00, 50),
+(3, 4, 280.00, 30),
+(4, 5, 290.00, 40);
+
+-- Pedido 5
+INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
+(180.00, 4, 6, 1);
+
+-- Produtos vendidos no pedido 5
+INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
+(5, 8, 2, 33.00, 'G'),
+(5, 9, 2, 48.00, 'M');
+
+-- Venda para Pedido 5
+INSERT INTO venda (idpedido, data_venda) VALUES
+(5, '2025-06-07');
