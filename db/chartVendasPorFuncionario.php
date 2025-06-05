@@ -3,7 +3,7 @@ include 'conexao.php';
 
 $sql = "SELECT f.nome AS funcionario, SUM(p.valor_total) AS total_vendas
         FROM pedido p
-        JOIN funcionario f ON p.idfuncionario = f.idfuncionario
+        JOIN funcionario f ON p.idfuncionario = f.idfuncionario AND f.cargo = 'funcionario'
         JOIN venda v ON v.idpedido = p.idpedido
         GROUP BY f.idfuncionario";
 
