@@ -25,14 +25,12 @@ if (mysqli_query($conn, $dados_produto)) {
                       VALUES ($idfornecedor, $idproduto, $preco_for, $quantidade_for)";
 
     if (mysqli_query($conn, $dados_produtos_fornecidos)) {
-        $_SESSION['msg'] = "Produto cadastrado com sucesso!";
-        $_SESSION['origem'] = "cadastro_prod.php";
-        header("Location: ../paginas/estoque.php");
+         echo "<meta http-equiv='refresh' content='0;url=../paginas/estoque.php'>
+            <script type='text/javascript'>alert('Produto cadastrado com sucesso!');</script>";
         exit;
     } else {
-        $_SESSION['msg'] = "Erro ao cadastrar produto: " . mysqli_error($conn);
-        $_SESSION['origem'] = "cadastro_prod.php";
-        header("Location: ../paginas/cadastro_prod.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/estoque.php'>
+            <script type='text/javascript'>alert('Erro ao cadastrar produto: ');</script>";
         exit;
     }
 

@@ -12,14 +12,12 @@ if (isset($_POST['nome'], $_POST['cpf'], $_POST['telefone'])) {
         VALUES ('$nome', '$cpf', '$telefone')";
 
     if (mysqli_query($conn, $dados_cliente)) {
-        $_SESSION['msg'] = "cliente cadastrado com sucesso!";
-        $_SESSION['origem'] = "cadastro_cliente.php";
-        header("Location: ../paginas/carrinho.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/carrinho.php'>
+            <script type='text/javascript'>alert('cliente cadastrado com sucesso! ');</script>";
         exit;
     } else {
-        $_SESSION['msg'] = "Erro ao cadastrar cliente: " . mysqli_error($conn);
-        $_SESSION['origem'] = "cadastro_cliente.php";
-        header("Location: ../paginas/cadastro_cliente.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/carrinho.php'>
+            <script type='text/javascript'>alert('Erro ao cadastrar cliente: ');</script>";
         exit;
     }
 

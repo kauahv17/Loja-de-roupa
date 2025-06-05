@@ -11,14 +11,12 @@ if (isset($_POST['nome'], $_POST['cnpj'])) {
         VALUES ('$nome', '$cnpj')";
 
     if (mysqli_query($conn, $dados_fornecedor)) {
-        $_SESSION['msg'] = "Fornecedor cadastrado com sucesso!";
-        $_SESSION['origem'] = "cadastro_forn.php";
-        header("Location: ../paginas/fornecedores.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/fornecedores.php'>
+            <script type='text/javascript'>alert('Fornecedor cadastrado com sucesso! ');</script>";
         exit;
     } else {
-        $_SESSION['msg'] = "Erro ao cadastrar fornecedor: " . mysqli_error($conn);
-        $_SESSION['origem'] = "cadastro_forn.php";
-        header("Location: ../paginas/cadastro_forn.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/fornecedores.php'>
+            <script type='text/javascript'>alert('Erro ao cadastrar fornecedor: ');</script>";
         exit;
     }
 
