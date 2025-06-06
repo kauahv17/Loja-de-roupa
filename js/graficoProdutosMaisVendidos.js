@@ -5,7 +5,7 @@ function carregaChartMaisVendidos() {
     $.ajax({
         dataType: 'json',
         type: 'POST',
-        url: '../db/chartProdutosMaisVendidos.php',
+        url: '../assets/graficos/chartProdutosMaisVendidos.php',
         data: {}
     }).done(function (data) {
         dataChartMaisVendidos = []; 

@@ -5,7 +5,7 @@ function carregaChartEstoqueCritico() {
     $.ajax({
         dataType: 'json',
         type: 'POST',
-        url: '../db/chartEstoqueCritico.php',
+        url: '../assets/graficos/chartEstoqueCritico.php',
         data: {}
     }).done(function (data) {
         dataChartEstoqueCritico = []; 
