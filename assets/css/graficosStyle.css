@@ -1,0 +1,27 @@
+.form-form button {
+    background: #D97904;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 10px 7px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-right: 10px;
+}
+
+.form-form button:hover {
+    background: #b86a0a;
+}
+.chart-icon.left {
+    left: 45px;
+}
+
+.chart-icon.right {
+    position: absolute;
+    right: 20px;
+    top: 40px; 
+    display: flex;
+    gap: 30px;
+}
