@@ -10,8 +10,7 @@
 
     <h1 style="color:#3C3E40;">Relatório de vendas</h1>
     <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a><br><br><br>
-    <a href="../assets/graficos/graficos.php" data-toggle="modal"><img src="../assets/img/chart.svg" alt="Gráfico" style="width:35px;"></a><br><br>
-    <a href="../assets/relatorios/pdf.php" data-toggle="modal"><img src="../assets/img/pdf.svg" alt="PDF" style="width:35px;"></a>
+    <a href="graficos.php" data-toggle="modal"><img src="../assets/img/chart.svg" alt="Gráfico" style="width:35px;"></a>
 </div>
 </body>
 </html>
