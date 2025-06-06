@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório de Gráficos</title>
     <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
-    <link rel="stylesheet" href="../assets/css/graficosStyle.css">
-    <link rel="stylesheet" href="../assets/css/pdfStyle.css">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
@@ -14,26 +13,20 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-    <div class="container my-4" style="position: relative;"><br>
-        <div class="pdf-icon left">
-            <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
-        </div>
-        <div class="pdf-icon right">
-            <a href="pdfVendasFuncionarios.php" target="_blank"><img src="../assets/img/pdf.svg" alt="PDF de Vendas por Funcionário" style="width:45px;"></a>
-        </div>
-        
+    <div class="container my-4"><br>
+        <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         <h1 class="text-center">Gráficos da Loja</h1><br><br>
         
 
         <!-- Botões -->
-        <div class="d-flex flex-wrap justify-content-center form-form">
-            <button data-toggle="modal" data-target="#modalEstoque">Estoque por Tipo</button>
-            <button data-toggle="modal" data-target="#modalVendasDia">Vendas por Dia</button>
-            <button data-toggle="modal" data-target="#modalMaisVendidos">Top Produtos Vendidos</button>
-            <button data-toggle="modal" data-target="#modalVendasFuncionario">Vendas por Funcionário</button>
-            <button data-toggle="modal" data-target="#modalEstoqueCritico">Estoque Crítico</button>
+        <div class="d-flex flex-wrap justify-content-center">
+            <button type="button" class="btn btn-success m-2" data-toggle="modal" data-target="#modalEstoque">Estoque por Tipo</button>
+            <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#modalVendasDia">Vendas por Dia</button>
+            <button type="button" class="btn btn-info m-2" data-toggle="modal" data-target="#modalMaisVendidos">Top Produtos Vendidos</button>
+            <button type="button" class="btn btn-warning m-2" data-toggle="modal" data-target="#modalVendasFuncionario">Vendas por Funcionário</button>
+            <button type="button" class="btn btn-danger m-2" data-toggle="modal" data-target="#modalEstoqueCritico">Estoque Crítico</button>
         </div>
-        
+
         <!-- Modais -->
         <!-- Estoque por Tipo -->
         <div class="modal fade" id="modalEstoque" tabindex="-1" role="dialog">
