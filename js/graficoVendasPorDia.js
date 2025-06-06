@@ -5,7 +5,7 @@ function carregaChartVendasDia() {
     $.ajax({
         dataType: 'json',
         type: 'POST',
-        url: '../db/chartVendasPorDia.php',
+        url: '../assets/graficos/chartVendasPorDia.php',
         data: {}
     }).done(function (data) {
         dataChartVendasDia = []; 

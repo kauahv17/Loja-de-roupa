@@ -5,7 +5,7 @@ function carregaChartFuncionario() {
     $.ajax({
         dataType: 'json',
         type: 'POST',
-        url: '../db/chartVendasPorFuncionario.php',
+        url: '../assets/graficos/chartVendasPorFuncionario.php',
         data: {}
     }).done(function (data) {
         dataChartFuncionario = []; 
