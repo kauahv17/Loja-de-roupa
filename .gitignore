@@ -1,0 +1,26 @@
+# Ignora a pasta de dependências do Composer
+/vendor/
+
+# Ignora arquivos de ambiente (ex: senhas, configurações locais)
+.env
+
+# Ignora arquivos de log
+*.log
+
+# Ignora arquivos temporários e de cache
+*.cache
+*.tmp
+
+# Ignora arquivos de backup
+*~
+
+# Ignora arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignora configurações de IDEs/editors
+.vscode/
+.idea/
+
+# Ignora arquivos do NetBeans (caso esteja usando)
+nbproject/private/
