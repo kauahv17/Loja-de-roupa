@@ -1,0 +1,72 @@
+.form-form button {
+    background: #d9d9d9;
+    color: #212529;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px; /* separação vertical entre linhas */
+
+}
+
+.form-form button:hover {
+    background: #b86a0a;
+}
+.chart-icon.left {
+    left: 45px;
+}
+
+.chart-icon.right {
+    position: absolute;
+    right: 110px;
+    top: 60px; 
+    display: flex;
+    gap: 30px;
+}
+.pdf-icon.right {
+    position: absolute;
+    right: 90px;
+    top: 60px; 
+    display: flex;
+    gap: 30px;
+}
+a {
+    color:  #212529;
+}
+ h1.text-center a {
+    color: #212529;              /* cor padrão */
+    transition: color 0.3s;      /* animação suave */
+  }
+
+  h1.text-center a:hover {
+    color: #db7901;              /* cor ao passar o mouse */
+  }
+
+.btn-color {
+  background-color: #dddddd;
+  color: #212529;
+  font-weight: bold;
+  border: none;
+  margin: 5px;
+  border-radius: 6px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-color:hover {
+  background-color: #b86a0a;
+  color: white;
+}
+
+.btn-color.ativo {
+  background-color: #b86a0a;
+  color: white;
+}

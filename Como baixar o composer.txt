@@ -1,0 +1,17 @@
+Precisamos instalar o composer a partir desse link:
+https://getcomposer.org/download/
+
+
+em seguida abriremos o terminal do computador (Prompt de comando) 
+e navegaremos até a pasta do projeto com comando 
+"cd" + "caminho até o projeto no seu computador" 
+
+Ex:
+cd C:\Users\User\Documents\GitHub\Loja-de-roupa
+
+Em seguida vamos rodar esse comando:
+composer require spipu/html2pdf:5.2.8 --ignore-platform-req=ext-gd
+
+Após a aplicação deste comando, devemos ter a pasta “vendor” dentro da pasta do projeto.
+Porém ela pode ficar meio apagada por conta do .gitignore.
+Mas não tem problema, só *não* tirem o arquivo .gignore e garantam que nada da pasta vendor esta sendo comitado.
