@@ -76,26 +76,38 @@
                     <div class="vendas-card-actions">
                         <div class='dropdown'>
                             <?php
+                                $temTamanho = false;
+                                $tamanhoSelect = '';
                                 if($row['tipo'] != 'óculos'){
-                                    echo "<select name='tamanho' required>";
-                                    echo "<option value=''></option>";
-                                            if($row['tipo'] == 'camiseta'){
-                                                $tamanhos = ['PP', 'P','M', 'G', 'GG'];
-                                                foreach($tamanhos as $tamanho){ 
-                                                    echo "<option value='{$tamanho}'>{$tamanho}</option>";
-                                                }
-                                            }else{
-                                                for($i=34; $i <= 45; $i++){
-                                                    echo "<option value='{$i}'>{$i}</option>";
-                                                }
-                                            }
-                                    echo "</select>";
+                                    $temTamanho = true;
+                                    $tamanhoSelect = "<select name='tamanho' required><option value=''></option>";
+                                    if($row['tipo'] == 'camiseta'){
+                                        $tamanhos = ['PP', 'P','M', 'G', 'GG'];
+                                        foreach($tamanhos as $tamanho){ 
+                                            $tamanhoSelect .= "<option value='{$tamanho}'>{$tamanho}</option>";
+                                        }
+                                    }else{
+                                        for($i=34; $i <= 45; $i++){
+                                            $tamanhoSelect .= "<option value='{$i}'>{$i}</option>";
+                                        }
+                                    }
+                                    $tamanhoSelect .= "</select>";
+                                    echo $tamanhoSelect;
                                 }
                             ?>
                         </div>
-                        <button class="icon-btn">
-                            <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
-                        </button>
+                        <form method="POST" action="../db/adiciona_carrinho.php" style="display:inline;">
+                            <input type="hidden" name="nome" value="<?php echo htmlspecialchars($row['nome']); ?>">
+                            <input type="hidden" name="preco" value="<?php echo $row['preco_uni']; ?>">
+                            <input type="hidden" name="cor" value="<?php echo htmlspecialchars($row['cor']); ?>">
+                            <input type="hidden" name="tipo" value="<?php echo htmlspecialchars($row['tipo']); ?>">
+                            <?php if($temTamanho){ ?>
+                                <input type="hidden" name="tamanho" value="">
+                            <?php } ?>
+                            <button type="submit" class="icon-btn">
+                                <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
