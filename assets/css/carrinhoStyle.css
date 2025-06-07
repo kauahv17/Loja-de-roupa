@@ -1,3 +1,4 @@
+
 .cadastrar{
     width: 250px;
     padding: 10px;
@@ -128,58 +129,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.carrinho-vazio {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.3rem;
-    color: #3C3E40;
-    background: #f2f2f2;
-    border-radius: 16px;
-    min-height: 120px;
-    margin: 32px auto;
-    max-width: 600px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-@media (max-width: 1000px) {
-    .carrinho-header {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 5vw;
-    }
-    .carrinho-itens {
-        padding: 0 2vw;
-    }
-    .item-carrinho {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-    }
-    .carrinho-total {
-        flex-direction: column;
-        font-size: 1.1rem !important;
-        padding: 16px !important;
-    }
-    .cadastrar {
-        width: 90vw;
-        min-width: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .carrinho-header {
-        margin-top: 8vw;
-    }
-    .carrinho-total {
-        font-size: 1rem !important;
-        padding: 10px !important;
-    }
-    .cadastrar {
-        font-size: 1rem;
-        padding: 10px 0;
-    }
 }
