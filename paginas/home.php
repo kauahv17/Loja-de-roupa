@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/formStyle.css">
     <link rel="stylesheet" href="../assets/css/homeStyle.css">
+    <link rel="stylesheet" href="../assets/css/configStyle.css">
+    <link rel="stylesheet" href="../assets/css/btConfigStyle.css">
+  
 </head>
 
 <body>
@@ -28,8 +31,17 @@
                 </h1>
             </div>
             <div class="form-right">
-                <div class="settings-icon right">
-                    <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+                <div class="settings-icon right" onclick="toggleMenu()">
+                    <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+                    <div id="settings-menu" class="settings-menu user-info">
+                        <p><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></p>
+                        <p><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></p>
+                        <div>
+                            <form action="logout.php" method="POST">
+                                <a href="../index.php"><img src="../assets/img/sair.svg" alt="Sair" style="width:25px;"></a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-form">
                     <a href="vendas.php"><button class="home-button">Realizar venda</button></a>
@@ -45,5 +57,20 @@
             </div>
         </div>
     </div>
+  <script>
+        function toggleMenu() {
+            var menu = document.getElementById("settings-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        // Esconde o menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            var menu = document.getElementById("settings-menu");
+            var icon = document.querySelector('.settings-icon');
+            if (!icon.contains(event.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
