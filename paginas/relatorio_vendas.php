@@ -1,69 +1,65 @@
 <?php
-
 session_start();
 include_once '../db/conexao.php';
 
-// Obter o ID do funcionário selecionado
 $funcionario = isset($_GET['funcionario']) ? mysqli_real_escape_string($conn, $_GET['funcionario']) : '';
 
-// Montar a cláusula WHERE se necessário
 $where = '';
 if (!empty($funcionario)) {
     $where = "WHERE f.idfuncionario = '$funcionario'";
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório de vendas</title>
-    <link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/filtroStyle.css">
-    <link rel="stylesheet" href="../assets/css/tabelaRelatorioStyle.css">
-</head>
-    <div class="container my-4"><br>
-        <div class="chart-icon left">
-            <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
-        </div>
-        <div class="chart-icon right form-form">
-            <a href="pdfProduto.php" data-toggle="modal"><img src="../assets/img/pdf.svg" alt="PDF Produtos em Estoque" style="width:60px;"></a>
-            <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
-        </div>
-        <h1 class="text-center color"><a href="relatorio_vendas.php">Relatório de vendas</a></h1>
-    </div><br>
-    <?php
-        
-        // Consulta das vendas
-        $sql = "SELECT 
-        v.idvenda,
-        p.data_pedido,
-        c.nome AS cliente,
-            pr.nome AS produto,
-            pp.quantidade,
-            pp.tamanho,
-            pp.preco_ped
-            FROM venda v
-            JOIN pedido p ON v.idpedido = p.idpedido
-            JOIN cliente c ON p.idcliente = c.idcliente
-        JOIN funcionario f ON p.idfuncionario = f.idfuncionario
-        JOIN produto_pedido pp ON p.idpedido = pp.idpedido
-        JOIN produto pr ON pp.idproduto = pr.idproduto
-        $where
-        ORDER BY v.idvenda DESC";
-        
-        $result = mysqli_query($conn, $sql);
-        
-        // Consulta para listar os funcionários
-$sqlFunc = "SELECT idfuncionario, nome FROM funcionario";
+
+// Consulta resumo por pedido
+$sql = "SELECT 
+    v.idvenda,
+    p.idpedido,
+    p.data_pedido,
+    c.nome AS cliente,
+    p.quantidade AS qtd_total,
+    p.valor_total
+FROM venda v
+JOIN pedido p ON v.idpedido = p.idpedido
+JOIN cliente c ON p.idcliente = c.idcliente
+JOIN funcionario f ON p.idfuncionario = f.idfuncionario 
+$where
+ORDER BY v.idvenda DESC";
+
+$result = mysqli_query($conn, $sql);
+
+// Consulta funcionários para filtro
+$sqlFunc = "SELECT idfuncionario, nome FROM funcionario"; 
 $resultFunc = mysqli_query($conn, $sqlFunc);
 ?>
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relatório de vendas</title>
+<link rel="icon" type="image/png" href="/Loja-de-roupa/assets/img/logo_ME.png" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../assets/css/filtroStyle.css" />
+<link rel="stylesheet" href="../assets/css/tabelaRelatorioStyle.css" />
+</head>
+<body>
+
+<div class="container my-4"><br>
+    <div class="chart-icon left">
+        <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar" /></a>
+    </div>
+
+    <div class="chart-icon right form-form">
+        <a href="pdfProduto.php"><img src="../assets/img/pdf.svg" alt="PDF Produtos em Estoque" style="width:60px;" /></a>
+        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações" /></a>
+    </div>
+    
+    <h1 class="text-center color"><a href="relatorio_vendas.php">Relatório de vendas</a></h1>
+</div><br>
 
 <div class="container mt-4">
 
-    <!-- Botões de filtro por funcionário -->
+    <!-- Filtro por funcionário -->
     <form method="GET" class="mb-4">
         <div class="d-flex flex-wrap justify-content-center form-form">
             <?php while ($func = mysqli_fetch_assoc($resultFunc)): ?>
@@ -78,7 +74,7 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
         </div>
     </form>
 
-    <!-- Tabela com os resultados -->
+    <!-- Tabela resumo de pedidos -->
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
@@ -88,10 +84,10 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
                 <th>Valor</th>
                 <th>Data do Pedido</th>
                 <th class="text-center" style="color: white;">
-                    <a href="graficos.php" data-toggle="modal">
-                        <img src="../assets/img/chart.svg" alt="Gráfico" style="width:35px;">
+                    <a href="graficos.php">
+                        <img src="../assets/img/chart.svg" alt="Gráficos" style="width:20px;" />
                     </a>
-                </th> 
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -100,14 +96,13 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
                     <tr>
                         <td><?= $row['idvenda'] ?></td>
                         <td><?= htmlspecialchars($row['cliente']) ?></td>
-                        <td><?= $row['quantidade'] ?></td>
-                        <td>R$ <?= number_format($row['preco_ped'], 2, ',', '.') ?></td>
+                        <td><?= $row['qtd_total'] ?></td>
+                        <td>R$ <?= number_format($row['valor_total'], 2, ',', '.') ?></td>
                         <td><?= date('d/m/Y', strtotime($row['data_pedido'])) ?></td>
                         <td class="text-center">
-                            <!-- Ícone de visualização (por exemplo, um olho) -->
-                            <a href="carrinho.php?id=<?= $row['idvenda'] ?>" title="Visualizar venda">
-                                <img src="../assets/img/eye.svg" alt="Visualizar" style="width:30px;">
-                            </a>
+                            <button class="btn btn-sm  btnDetalhes" data-idpedido="<?= $row['idpedido'] ?>">
+                                <img src="../assets/img/eye.svg" alt="Ver detalhes" style="width:20px;" />
+                            </button>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -120,7 +115,79 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
     </table>
 </div>
 
+<!-- Modal Bootstrap para mostrar detalhes do pedido -->
+<div class="modal fade" id="modalDetalhes" tabindex="-1" role="dialog" aria-labelledby="modalDetalhesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetalhesLabel">Detalhes do Pedido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Conteúdo carregado via AJAX -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Tamanho</th>
+                    <th>Preço Unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="detalhesBody">
+                <!-- dados aqui -->
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Função para carregar detalhes via AJAX
+$(document).ready(function(){
+    $('.btnDetalhes').click(function(){
+        var idpedido = $(this).data('idpedido');
+        $.ajax({
+            url: 'detalhes_pedido.php',
+            method: 'GET',
+            data: { idpedido: idpedido },
+            dataType: 'json',
+            success: function(response){
+                var tbody = '';
+                if(response.length > 0){
+                    response.forEach(function(item){
+                        var subtotal = item.quantidade * item.preco_ped;
+                        tbody += '<tr>'+
+                            '<td>'+item.produto+'</td>'+
+                            '<td>'+item.quantidade+'</td>'+
+                            '<td>'+item.tamanho+'</td>'+
+                            '<td>R$ '+item.preco_ped.toFixed(2).replace(".", ",")+'</td>'+
+                            '<td>R$ '+subtotal.toFixed(2).replace(".", ",")+'</td>'+
+                            '</tr>';
+                    });
+                } else {
+                    tbody = '<tr><td colspan="5" class="text-center">Nenhum produto encontrado.</td></tr>';
+                }
+                $('#detalhesBody').html(tbody);
+                $('#modalDetalhes').modal('show');
+            },
+            error: function(){
+                alert('Erro ao carregar detalhes do pedido.');
+            }
+        });
+    });
+});
+</script>
+
 </body>
-
-</html> 
-
+</html>
