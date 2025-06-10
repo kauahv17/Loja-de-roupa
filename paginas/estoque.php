@@ -77,18 +77,23 @@
                 </div>
                 <div class="estoque-card-actions">
                     <div class="dropdown">
-                        <select name="tamanho" required>
-                            <option value=""></option>
-                            <?php
-                            #$tamanhos = ['P', 'PP','M', 'G', 'GG'];
-                            #foreach($tamanhos as $tamanho){ 
-                            #    echo "<option value='{$tamanho}'>{$tamanho}</option>";
-                            #}
-                            for($i=34; $i <= 45; $i++){ 
-                                echo "<option value='{$i}'>{$i}</option>";
+                        <?php
+                            if($row['tipo'] != 'óculos'){
+                                echo "<select name='tamanho' required>";
+                                echo "<option value=''></option>";
+                                        if($row['tipo'] == 'camiseta'){
+                                            $tamanhos = ['PP', 'P','M', 'G', 'GG'];
+                                            foreach($tamanhos as $tamanho){ 
+                                                echo "<option value='{$tamanho}'>{$tamanho}</option>";
+                                            }
+                                        }else{
+                                            for($i=34; $i <= 45; $i++){
+                                                echo "<option value='{$i}'>{$i}</option>";
+                                            }
+                                        }
+                                echo "</select>";
                             }
-                            ?>
-                        </select>
+                        ?>
                     </div>
                 </div>
             </div>

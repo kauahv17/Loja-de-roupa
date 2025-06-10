@@ -3,7 +3,7 @@
     //configurar a conexão
     $host = "localhost";
     $user = "root";
-    $password = "";
+    $password = "root";
     $database = "loja";
 
     //abrir a conexão

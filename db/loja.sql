@@ -189,9 +189,6 @@ INSERT INTO produto (nome, quantidade_estoque, preco_uni, cor, idtipo_produto) V
 ('Óculos de Sol Aviador', 20, 90.00, 'preto', 5),
 ('Óculos de Grau Retrô', 18, 85.00, 'tartaruga', 5);
 
--- Inserir pedido (após cliente e funcionario)
-INSERT INTO pedido (valor_total, idfuncionario, idcliente) VALUES
-(60.00, 2, 1);
 
 -- Inserir produtos fornecidos (após produto e fornecedor)
 INSERT INTO produtos_fornecidos (idfornecedor, idproduto, preco_for, quantidade) VALUES
@@ -227,53 +224,51 @@ INSERT INTO produtos_fornecidos (idfornecedor, idproduto, preco_for, quantidade)
 (3, 30, 315, 25),
 (4, 31, 320, 18);
 
--- Inserir produto_pedido (após pedido e produto)
+-- Inserindo pedidos com valor_total = 0 inicialmente
+INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
+(0, 2, 2, 1),  -- idpedido = 1
+(0, 3, 3, 1),  -- idpedido = 2
+(0, 5, 4, 1),  -- idpedido = 3
+(0, 2, 5, 1),  -- idpedido = 4
+(0, 4, 6, 1);  -- idpedido = 5
+
+-- Produtos para Pedido 1
 INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
 (1, 1, 2, 60.00, 'G');
 
--- Inserir venda (após pedido)
-INSERT INTO venda (idpedido) VALUES
-(1);
-
-
--- Pedido 2
-INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
-(120.00, 3, 3, 1);
-
--- Pedido 3
-INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
-(200.00, 5, 4, 1);
-
--- Pedido 4
-INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
-(80.00, 2, 5, 1);
-
--- Pedido 2
+-- Produtos para Pedido 2
 INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
 (2, 2, 1, 35.00, 'M'),
 (2, 3, 2, 45.00, 'G');
 
--- Pedido 3
+-- Produtos para Pedido 3
 INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
 (3, 4, 3, 38.00, 'M'),
 (3, 5, 2, 42.00, 'G');
 
--- Pedido 4
+-- Produtos para Pedido 4
 INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
 (4, 6, 1, 50.00, 'P'),
 (4, 7, 1, 30.00, 'M');
 
--- Venda para Pedido 2
-INSERT INTO venda (idpedido, data_venda) VALUES
-(2, '2025-06-04');
+-- Produtos para Pedido 5
+INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
+(5, 8, 2, 33.00, 'G'),
+(5, 9, 2, 48.00, 'M');
 
--- Venda para Pedido 3
-INSERT INTO venda (idpedido, data_venda) VALUES
-(3, '2025-06-05');
-
--- Venda para Pedido 4
-INSERT INTO venda (idpedido, data_venda) VALUES
-(4, '2025-06-06');
+UPDATE pedido p
+SET valor_total = (
+  SELECT SUM(pp.quantidade * pp.preco_ped)
+  FROM produto_pedido pp
+  WHERE pp.idpedido = p.idpedido
+)
+WHERE p.idpedido IN (1, 2, 3, 4, 5);
+INSERT INTO venda (idpedido) VALUES
+(1),
+(2),
+(3),
+(4),
+(5);
 
 UPDATE produto SET quantidade_estoque = 5 WHERE idproduto = 2;
 UPDATE produto SET quantidade_estoque = 8 WHERE idproduto = 3;
@@ -285,15 +280,47 @@ INSERT INTO produtos_fornecidos (idfornecedor, idproduto, preco_for, quantidade)
 (3, 4, 280.00, 30),
 (4, 5, 290.00, 40);
 
--- Pedido 5
-INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES
-(180.00, 4, 6, 1);
+-- calcular a soma de quantidade * preco_ped de todos os produtos desse pedido e atualizar o valor_total e a quantidade na tabela pedido.
 
--- Produtos vendidos no pedido 5
-INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES
-(5, 8, 2, 33.00, 'G'),
-(5, 9, 2, 48.00, 'M');
+DELIMITER //
 
--- Venda para Pedido 5
-INSERT INTO venda (idpedido, data_venda) VALUES
-(5, '2025-06-07');
+CREATE TRIGGER trg_produto_pedido_after_insert
+AFTER INSERT ON produto_pedido
+FOR EACH ROW
+BEGIN
+  UPDATE pedido
+  SET 
+    valor_total = (SELECT IFNULL(SUM(quantidade * preco_ped), 0) FROM produto_pedido WHERE idpedido = NEW.idpedido),
+    quantidade = (SELECT IFNULL(SUM(quantidade), 0) FROM produto_pedido WHERE idpedido = NEW.idpedido)
+  WHERE idpedido = NEW.idpedido;
+END;
+//
+
+CREATE TRIGGER trg_produto_pedido_after_update
+AFTER UPDATE ON produto_pedido
+FOR EACH ROW
+BEGIN
+  UPDATE pedido
+  SET 
+    valor_total = (SELECT IFNULL(SUM(quantidade * preco_ped), 0) FROM produto_pedido WHERE idpedido = NEW.idpedido),
+    quantidade = (SELECT IFNULL(SUM(quantidade), 0) FROM produto_pedido WHERE idpedido = NEW.idpedido)
+  WHERE idpedido = NEW.idpedido;
+END;
+//
+
+CREATE TRIGGER trg_produto_pedido_after_delete
+AFTER DELETE ON produto_pedido
+FOR EACH ROW
+BEGIN
+  UPDATE pedido
+  SET 
+    valor_total = (SELECT IFNULL(SUM(quantidade * preco_ped), 0) FROM produto_pedido WHERE idpedido = OLD.idpedido),
+    quantidade = (SELECT IFNULL(SUM(quantidade), 0) FROM produto_pedido WHERE idpedido = OLD.idpedido)
+  WHERE idpedido = OLD.idpedido;
+END;
+//
+
+DELIMITER ;
+
+
+

@@ -18,14 +18,12 @@ if (isset($_POST['nome'], $_POST['cpf'], $_POST['email'], $_POST['senha'], $_POS
         VALUES ('$nome', '$cpf', '$email', '$senha_criptografada', '$cargo')";
 
     if (mysqli_query($conn, $dados_funcionario)) {
-        $_SESSION['msg'] = "Funcionário cadastrado com sucesso!";
-        $_SESSION['origem'] = "cadastro_func.php";
-        header("Location: ../paginas/funcionarios.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/funcionarios.php'>
+            <script type='text/javascript'>alert('Funcionário cadastrado com sucesso!');</script>";
         exit;
     } else {
-        $_SESSION['msg'] = "Erro ao cadastrar funcionário: " . mysqli_error($conn);
-        $_SESSION['origem'] = "cadastro_func.php";
-        header("Location: ../paginas/cadastro_func.php");
+        echo "<meta http-equiv='refresh' content='0;url=../paginas/funcionarios.php'>
+            <script type='text/javascript'>alert('Erro ao cadastrar funcionário: ');</script>";
         exit;
     }
 
