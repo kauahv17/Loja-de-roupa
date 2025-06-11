@@ -20,6 +20,45 @@
             $where = " AND tipo_produto.tipo = '$categoria'";
         }
     }
+
+    // Processar adição ao carrinho
+    if (isset($_POST['adicionar_carrinho'])) {
+        $produto_id = $_POST['produto_id'];
+        $quantidade = $_POST['quantidade'];
+        $tamanho = isset($_POST['tamanho']) ? $_POST['tamanho'] : null;
+
+        if (!isset($_SESSION['carrinho'])) {
+            $_SESSION['carrinho'] = array();
+        }
+
+        $item = array(
+            'produto_id' => $produto_id,
+            'quantidade' => $quantidade,
+            'tamanho' => $tamanho
+        );
+
+        $_SESSION['carrinho'][] = $item;
+    }
+
+    // Processar alteração de quantidade
+    if (isset($_POST['alterar_quantidade'])) {
+        $produto_id = $_POST['produto_id'];
+        $nova_quantidade = $_POST['nova_quantidade'];
+        $tamanho = isset($_POST['tamanho']) ? $_POST['tamanho'] : null;
+
+        foreach ($_SESSION['carrinho'] as $key => $item) {
+            if ($item['produto_id'] == $produto_id && $item['tamanho'] == $tamanho) {
+                if ($nova_quantidade <= 0) {
+                    // Remove o item do carrinho se a quantidade for 0 ou menor
+                    unset($_SESSION['carrinho'][$key]);
+                    $_SESSION['carrinho'] = array_values($_SESSION['carrinho']); // Reindexa o array
+                } else {
+                    $_SESSION['carrinho'][$key]['quantidade'] = $nova_quantidade;
+                }
+                break;
+            }
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -50,6 +89,7 @@
         <div class="vendas-lista">
             <?php 
                 $sql = "SELECT 
+                        produto.idproduto,
                         produto.nome,
                         produto.preco_uni,
                         produto.cor,
@@ -60,6 +100,20 @@
                 $result = mysqli_query($conn, $sql);
                 if ($result && mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
+                    $produto_no_carrinho = false;
+                    $quantidade_carrinho = 0;
+                    $tamanho_carrinho = null;
+
+                    if (isset($_SESSION['carrinho'])) {
+                        foreach ($_SESSION['carrinho'] as $item) {
+                            if ($item['produto_id'] == $row['idproduto']) {
+                                $produto_no_carrinho = true;
+                                $quantidade_carrinho = $item['quantidade'];
+                                $tamanho_carrinho = $item['tamanho'];
+                                break;
+                            }
+                        }
+                    }
             ?>
             <div class="vendas-card">
                 <div class="vendas-card-img">
@@ -74,28 +128,54 @@
                         </div>
                     </div>
                     <div class="vendas-card-actions">
-                        <div class='dropdown'>
-                            <?php
-                                if($row['tipo'] != 'óculos'){
-                                    echo "<select name='tamanho' required>";
-                                    echo "<option value=''></option>";
-                                            if($row['tipo'] == 'camiseta'){
-                                                $tamanhos = ['PP', 'P','M', 'G', 'GG'];
-                                                foreach($tamanhos as $tamanho){ 
-                                                    echo "<option value='{$tamanho}'>{$tamanho}</option>";
-                                                }
-                                            }else{
-                                                for($i=34; $i <= 45; $i++){
-                                                    echo "<option value='{$i}'>{$i}</option>";
-                                                }
-                                            }
-                                    echo "</select>";
-                                }
-                            ?>
-                        </div>
-                        <button class="icon-btn">
-                            <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
-                        </button>
+                        <?php if($row['tipo'] != 'óculos'): ?>
+                            <div class='dropdown'>
+                                <select name='tamanho' required>
+                                    <option value=''></option>
+                                    <?php
+                                    if($row['tipo'] == 'camiseta'){
+                                        $tamanhos = ['PP', 'P','M', 'G', 'GG'];
+                                        foreach($tamanhos as $tamanho){ 
+                                            $selected = ($tamanho == $tamanho_carrinho) ? 'selected' : '';
+                                            echo "<option value='{$tamanho}' {$selected}>{$tamanho}</option>";
+                                        }
+                                    }else{
+                                        for($i=34; $i <= 45; $i++){
+                                            $selected = ($i == $tamanho_carrinho) ? 'selected' : '';
+                                            echo "<option value='{$i}' {$selected}>{$i}</option>";
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if(!$produto_no_carrinho): ?>
+                            <form method="POST" style="display: inline;">
+                                <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
+                                <input type="hidden" name="quantidade" value="1">
+                                <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
+                                <button type="submit" name="adicionar_carrinho" class="btn-carrinho">
+                                    <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <div class="quantidade-container">
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
+                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
+                                    <input type="hidden" name="nova_quantidade" value="<?php echo $quantidade_carrinho - 1; ?>">
+                                    <button type="submit" name="alterar_quantidade" class="btn-diminuir">-</button>
+                                </form>
+                                <span class="quantidade"><?php echo $quantidade_carrinho; ?></span>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
+                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
+                                    <input type="hidden" name="nova_quantidade" value="<?php echo $quantidade_carrinho + 1; ?>">
+                                    <button type="submit" name="alterar_quantidade" class="btn-aumentar">+</button>
+                                </form>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
