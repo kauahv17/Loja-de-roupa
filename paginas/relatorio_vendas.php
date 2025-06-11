@@ -41,6 +41,7 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../assets/css/filtroStyle.css" />
 <link rel="stylesheet" href="../assets/css/tabelaRelatorioStyle.css" />
+<link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 </head>
 <body>
 
@@ -51,7 +52,21 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
 
     <div class="chart-icon right form-form">
         <a href="pdfProdutosMaisVendidos.php"><img src="../assets/img/pdf.svg" alt="PDF Vendas por Funcionários" style="width:60px;"></a>
-        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações" /></a>
+        <div class="settings-icone right" onclick="toggleMenu()">
+            <div class="settings-icon right" onclick="toggleSidebar()">
+                <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+            </div>
+            <div class="sidebar" id="sidebar">
+            <div>
+                <h2>Configurações</h2>
+                <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+            <a href="../index.php">
+                <img src="../assets/img/sair.svg" alt="Sair"> 
+            </a>
+            </div>
+        </div>
     </div>
     
     <h1 class="text-center color"><a href="relatorio_vendas.php">Relatório de vendas</a></h1>
@@ -188,6 +203,6 @@ $(document).ready(function(){
     });
 });
 </script>
-
+<script src="../js/configuracoes.js"></script>
 </body>
 </html>

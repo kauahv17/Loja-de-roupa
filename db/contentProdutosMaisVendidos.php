@@ -10,7 +10,7 @@ include '../db/conexao.php';
             <tr style="background-color: #e67e22; color: white;">
                 <th style="width:10%;">ID</th>
                 <th style="width:30%;">Produto</th>
-                <th style="width:15%;">Quantidade Vendida</th>
+                <th style="width:20%;">Quantidade Vendida</th>
                 <th style="width:20%;">Preço Unitário (R$)</th>
                 <th style="width:25%;">Total em Vendas (R$)</th>
             </tr>

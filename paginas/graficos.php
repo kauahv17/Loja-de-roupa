@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    session_start();
+?>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +11,7 @@
     <link rel="stylesheet" href="../assets/css/pdfStyle.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
     <!-- Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -17,9 +20,21 @@
         <div class="chart-icon left">    
             <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         </div>
-         <div class="chart-icon right form-form">
-            <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações" /></a>
-        </div>
+            <div class="settings-icone right" onclick="toggleMenu()">
+                <div class="settings-icon right" onclick="toggleSidebar()">
+                    <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+                </div>
+                <div class="sidebar" id="sidebar">
+                <div>
+                    <h2>Configurações</h2>
+                    <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                    <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                </div>
+                <a href="../index.php">
+                    <img src="../assets/img/sair.svg" alt="Sair"> 
+                </a>
+                </div>
+            </div>
         <div class="chart-icon right">
             
         </div>
@@ -107,7 +122,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="../js/configuracoes.js"></script>
     <!-- Scripts dos Gráficos -->
     <script src="../js/graficoEstoque.js"></script>
     <script src="../js/graficoVendasPorDia.js"></script>
