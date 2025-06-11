@@ -101,7 +101,7 @@
             <?php
                 }
             } else {
-                echo "<p style='margin: 20px;'>Nenhum produto encontrado.</p>";
+                echo "<p>Nenhum produto encontrado.</p>";
             }
             ?>
         </div>
