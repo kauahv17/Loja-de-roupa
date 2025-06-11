@@ -17,6 +17,9 @@
         <div class="chart-icon left">    
             <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         </div>
+         <div class="chart-icon right form-form">
+            <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações" /></a>
+        </div>
         <div class="chart-icon right">
             
         </div>

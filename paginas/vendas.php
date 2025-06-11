@@ -86,6 +86,7 @@ if (isset($_POST['alterar_quantidade'])) {
     <div class="settings-icon right">
         <a href="carrinho.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+        <a href="pdfVendasPorDia.php"><img src="../assets/img/pdf.svg" alt="PDF Vendas Por Dia" style="width:60px;" /></a>
     </div>
     <div class="vendas-container">
         <div class="vendas-header">
