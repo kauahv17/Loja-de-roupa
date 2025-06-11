@@ -50,7 +50,7 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
     </div>
 
     <div class="chart-icon right form-form">
-        <a href="pdfProduto.php"><img src="../assets/img/pdf.svg" alt="PDF Produtos em Estoque" style="width:60px;" /></a>
+        
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações" /></a>
     </div>
     

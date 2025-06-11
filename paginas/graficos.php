@@ -18,7 +18,7 @@
             <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         </div>
         <div class="chart-icon right">
-            <a href="pdfVendasFuncionario.php"><img src="../assets/img/pdf.svg" alt="PDF Vendas por Funcionários" style="width:45px;"></a>
+            
         </div>
         <h1 class="text-center">Gráficos da Loja</h1><br><br>
         

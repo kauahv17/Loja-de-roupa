@@ -20,6 +20,7 @@
     <div class="settings-icon right">
         <a href="cadastro_func.php"><img src="../assets/img/add_func.svg" alt="Adicionar"></a>
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+        <a href="pdfVendasFuncionario.php"><img src="../assets/img/pdf.svg" alt="PDF Vendas por Funcionários" style="width:45px;"></a>
     </div>
     <div class="funcionario-container">
         <div class="funcionario-header">
