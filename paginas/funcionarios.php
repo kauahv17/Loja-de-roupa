@@ -59,7 +59,7 @@
                     <div class="funcionario-card-email">Email: <?php echo $row['email']; ?></div>
                     <div class="funcionario-card-actions">
                         <a href="cadastro_func.php?id=<?=$row['id'];?>"><img src="../assets/img/editar.svg" alt="Editar"></a>
-                        <a href="../db/deleta_funcionario.php?id=<?=$row['id'];?>" class="delete-funcionario"><img src="../assets/img/lixeira.svg" alt="Excluir"></a>
+                        <a href="../db/deleta_funcionario.php?id=<?=$row['id'];?>" class="delete-funcionario"><img src="../assets/img/lixeiraw.svg" alt="Excluir"></a>
                     </div>
                 </div>
             </div>

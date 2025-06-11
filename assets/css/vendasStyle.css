@@ -1,52 +1,56 @@
 .vendas-container {
-    padding: 32px 48px;
     height: calc(100vh - 100px);
-    box-sizing: border-box;
     overflow-y: auto;
-    position: relative;
     margin-top: 5%;
+}
+
+.settings-icon {
+    margin-top: 3%;
 }
 
 .vendas-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 999;
-    margin-bottom: 3.5%;
+    margin-top: 1%;
+    margin-bottom: 3%;
 }
 
 .vendas-search {
-    margin: 32px 0 24px 0;
+    width: 50vw;
+    height: 32px;
     display: flex;
     align-items: center;
     gap: 8px;
-    justify-content: center;
+    margin: 20px auto;
 }
 
 .vendas-search input {
-    width: 900px;
-    max-width: 100%;
-    padding: 8px 16px;
+    width: 100%;
+    height: 100%;
     border-radius: 20px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    padding-left: 2%;
 }
 
 .vendas-search-btn {
-    background: none;
     border: none;
     cursor: pointer;
-    padding: 0 0 0 4px;
     display: flex;
     align-items: center;
+}
+
+.vendas-search-btn img {
+    width: 80%;
 }
 
 .vendas-lista {
     display: grid;
-    grid-template-columns: repeat(4, 220px);
-    gap: 24px;
+    grid-template-columns: repeat(4, 11%);
+    column-gap: 2.1%;
+    row-gap: 20px;
     justify-content: center;
+
 }
 
 .vendas-card {
@@ -55,73 +59,58 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 260px;
-    width: 220px;
+    height: 35vh;
 }
 
 .vendas-card-img {
     background: #d9d9d9;
-    height: 170px;
+    min-height: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.vendas-card-img img {
+    width: 40%;
+}
+
 .vendas-card-info {
     background: #e88c1a;
     color: #fff;
-    padding: 18px 16px 8px 16px;
+    padding: 2.5% 7% 0 7%;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
 }
 
 .vendas-card-title {
     font-weight: bold;
-    margin-bottom: 2px;
     font-size: 1.05rem;
 }
 
-.vendas-card-price {
-    margin-bottom: 0;
+.vendas-card-price-line {
     font-size: 1rem;
+    display: flex;
+    margin-top: 3%;
 }
 
-.vendas-card-actions {
+.vendas-card-estoque {
+    margin-left: auto;
+    text-align: right;
+}
+
+.vendas-card-icons {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-}
-
-.icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-
-.vendas-card-price-container {
-    display: flex;
     align-items: center;
-    gap: 6px;
+    margin-top: auto;
 }
 
-.vendas-card-img img {
-    width: 60px;
-}
-
-.vendas-search-btn img {
-    width: 22px;
-}
 
 .dropdown {
     width: 70px;
     height: 35px;
-    position: relative;
 }
 
 .dropdown select {
@@ -147,71 +136,40 @@
     height: 65%;
 }
 
-.vendas-card-actions img.cart {
-    width: 28px;
-    vertical-align: middle;
-    margin-right: 1%;
-    margin-top: 11px;
-    
-}
-
-.vendas-card-estoque {
-    margin-left: auto;
-    display: block;
-    text-align: right;
-    font-size: 0.95rem;
-}
-
-.settings-icon {
-    margin-top: 3%;
-}
-
-.quantidade-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: 35px;
-}
-
-.btn-diminuir,
-.btn-aumentar {
-    background: #f0f0f0;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
+.vendas-card-carrinho-group {
+    gap: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    margin-top: 5px;
-}
-
-.btn-diminuir:hover,
-.btn-aumentar:hover {
-    background: #e0e0e0;
-}
-
-.quantidade {
-    font-size: 16px;
-    width: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 25px;
-    margin-bottom: 11px;
 }
 
 .btn-carrinho {
     background: none;
     border: none;
-    cursor: pointer;
-    margin-bottom: -4px;
 }
 
 .btn-carrinho img {
-    width: 24px;
-    height: 24px;
+    width: 73%;
+    height: 73%;
+}
+
+.quantidade {
+    font-size: 0.90rem;
+    margin-bottom: 15px;
+}
+
+.btn-diminuir,
+.btn-aumentar {
+    background: #f2f2f2;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+
+}
+
+.btn-diminuir:hover,
+.btn-aumentar:hover {
+    background: #b86a0a;
+    color: #ffffff;
 }

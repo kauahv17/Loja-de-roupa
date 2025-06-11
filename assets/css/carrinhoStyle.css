@@ -1,132 +1,258 @@
-
-.cadastrar{
-    width: 250px;
-    padding: 10px;
-    background-color: #d97706; /* mesma cor laranja */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.cadastrar:hover {
-    background-color: #b45309; /* tom mais escuro no hover */
-}
-
 .carrinho-container {
-    padding: 32px 48px;
-    height: 100vh;
-    box-sizing: border-box;
+    height: calc(100vh - 100px);
     overflow-y: auto;
-    position: relative;
+    margin-top: 5%;
+}
+
+.settings-icon {
+    margin-top: 3%;
 }
 
 .carrinho-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 999;
-    margin-top: 2%;
+    margin-top: 1%;
     margin-bottom: 3%;
-}
-
-.carrinho-search {
-    margin: 32px 0 24px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     justify-content: center;
-}
-
-.carrinho-search input {
-    width: 900px;
-    max-width: 100%;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-.carrinho-search-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 0 0 4px;
-    display: flex;
-    align-items: center;
 }
 
 .carrinho-lista {
-    display: grid;
-    grid-template-columns: repeat(3, 300px);
-    gap: 24px;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 50vw;
+    height: 70px;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .carrinho-card {
-    background: #f2f2f2;
-    border-radius: 16px;
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    min-height: 300px;
+    align-items: center;
+    background: #D9D9D9;
+    border-radius: 18px;
+    width: 100%;
+    gap: 15px;
+
 }
 
 .carrinho-card-img {
     background: #d9d9d9;
-    height: 170px;
+    border-radius: 12px;
+    width: 10%;
+    height: 95%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+}
+
+.carrinho-card-img img {
+    width: 70%;
+    height: 70%;
+}
+
+.carrinho-card-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 5px;
 }
 
 .carrinho-card-info {
-    background: #e88c1a;
-    color: #fff;
-    padding: 18px 16px;
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
-    margin-bottom: 0;
-    font-size: 1rem;
+    padding: 2.5% 0 0 0;
 }
 
 .carrinho-card-title {
     font-weight: bold;
-    margin-bottom: 7px;
     font-size: 1.1rem;
+    color: #333;
 }
 
-.carrinho-card-actions {
+.carrinho-card-price {
+    font-size: 1rem;
+    color: #666;
+}
+
+.carrinho-card-var {
     display: flex;
-    gap: 16px;
-    margin-top: 16px;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    gap: 15px;
+    margin-left: auto;
 }
 
-.carrinho-card-img img {
-    width: 60px;
+.carrinho-card-sum {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
 }
 
 
-.carrinho-search-btn img {
-    width: 22px;
-
-}
-
-.carrinho-card-actions img {
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-}
-
-.carrinho-card-actions a {
+.carrinho-card-img-trash {
+    width: 10%;
+    height: 10%;
+    background: #d9d9d9;
+    border-radius: 12px;
+    width: 10%;
+    height: 95%;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+.carrinho-card-qntd-group {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #e88c1a;
+    border-radius: 0 18px 18px 0;
+    overflow: hidden;
+    width: 7%;
+    height: 100%;
+    margin-left: 10px;
+}
+
+.carrinho-card-qntd-group button {
+    background: none;
+    color: #fff;
+    border: none;
+    border-radius: 0 18px 18px 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.carrinho-card-qntd-group button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quantidade {
+    background: none;
+    color: #fff;
+    border: none;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.dropdown select {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f2f2f2;
+    outline: none;
+    color: #333;
+    padding: 5px 10px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("../assets/img/drop.svg");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 25px;
+    width: 80px;
+    height: 35px;
+}
+
+/* Cliente Section */
+.carrinho-busca-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 50vw;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.carrinho-search {
+    display: flex;
+    flex-grow: 1;
+    height: 40px;
+}
+
+.carrinho-input-search {
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    padding-left: 15px;
+    padding-right: 40px;
+    background-image: url("../assets/img/lupa.svg");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    box-sizing: border-box;
+}
+
+.carrinho-search-btn {
+    display: none;
+}
+
+.carrinho-button {
+    background: #fff;
+    border: 1px solid #333;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.carrinho-button:hover {
+    background: #eee;
+}
+
+/* Valor Total Section */
+.carrinho-valor-total {
+    background: #D9D9D9;
+    border-radius: 18px;
+    width: 50vw;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+}
+
+.total {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: left;
+}
+
+
+.finalizar-compra-button {
+    background: #e88c1a;
+    border: none;
+    color: #fff;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 10vw;
+    margin: 20px auto;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.finalizar-compra-button:hover {
+    opacity: 0.9;
 }

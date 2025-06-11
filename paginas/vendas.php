@@ -1,71 +1,80 @@
 <?php
-    session_start();
-    include 'header.php';
+session_start();
+include 'header.php';
 
-    // Recebe o valor da pesquisa e da categoria
-    $pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
-    $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+// Inicializa o carrinho na sessão se não existir
+if (!isset($_SESSION['carrinho'])) {
+    $_SESSION['carrinho'] = array();
+}
 
-    include_once '../db/conexao.php';
-    $where = '';
-    if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
-        $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
-        $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
-    }
-    if (isset($_GET['categoria']) && $_GET['categoria'] != '') {
-        $categoria = mysqli_real_escape_string($conn, $_GET['categoria']);
-        if ($where == '') {
-            $where = "WHERE tipo_produto.tipo = '$categoria'";
-        } else {
-            $where = " AND tipo_produto.tipo = '$categoria'";
+// Recebe o valor da pesquisa e da categoria
+$pesquisa = $_GET['pesquisa'] ?? '';
+$categoria = $_GET['categoria'] ?? '';
+
+include_once '../db/conexao.php';
+$where = '';
+if ($pesquisa != '') {
+    $pesquisa = mysqli_real_escape_string($conn, $pesquisa);
+    $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
+}
+if ($categoria != '') {
+    $categoria = mysqli_real_escape_string($conn, $categoria);
+    $where .= $where == '' ? "WHERE tipo_produto.tipo = '$categoria'" : " AND tipo_produto.tipo = '$categoria'";
+}
+
+// Processar adição ao carrinho
+if (isset($_POST['carrinho'])) {
+    $produto_id = $_POST['idproduto'];
+    $quantidade = $_POST['quantidade'];
+    $tamanho = $_POST['tamanhos'] ?? null;
+
+    // Verifica se o produto já está no carrinho com o mesmo tamanho
+    $produto_existe = false;
+    foreach ($_SESSION['carrinho'] as $key => $item) {
+        if ($item['produto_id'] == $produto_id && $item['tamanho'] == $tamanho) {
+            $_SESSION['carrinho'][$key]['quantidade'] += $quantidade;
+            $produto_existe = true;
+            break;
         }
     }
 
-    // Processar adição ao carrinho
-    if (isset($_POST['adicionar_carrinho'])) {
-        $produto_id = $_POST['produto_id'];
-        $quantidade = $_POST['quantidade'];
-        $tamanho = isset($_POST['tamanho']) ? $_POST['tamanho'] : null;
-
-        if (!isset($_SESSION['carrinho'])) {
-            $_SESSION['carrinho'] = array();
-        }
-
+    // Se o produto não existe no carrinho, adiciona como novo item
+    if (!$produto_existe) {
         $item = array(
             'produto_id' => $produto_id,
             'quantidade' => $quantidade,
             'tamanho' => $tamanho
         );
-
         $_SESSION['carrinho'][] = $item;
     }
+}
 
-    // Processar alteração de quantidade
-    if (isset($_POST['alterar_quantidade'])) {
-        $produto_id = $_POST['produto_id'];
-        $nova_quantidade = $_POST['nova_quantidade'];
-        $tamanho = isset($_POST['tamanho']) ? $_POST['tamanho'] : null;
+// Processar alteração de quantidade
+if (isset($_POST['alterar_quantidade'])) {
+    $produto_id = $_POST['idproduto'];
+    $nova_quantidade = $_POST['quantidade'];
+    $tamanho = $_POST['tamanho'] ?? null;
 
-        foreach ($_SESSION['carrinho'] as $key => $item) {
-            if ($item['produto_id'] == $produto_id && $item['tamanho'] == $tamanho) {
-                if ($nova_quantidade <= 0) {
-                    // Remove o item do carrinho se a quantidade for 0 ou menor
-                    unset($_SESSION['carrinho'][$key]);
-                    $_SESSION['carrinho'] = array_values($_SESSION['carrinho']); // Reindexa o array
-                } else {
-                    $_SESSION['carrinho'][$key]['quantidade'] = $nova_quantidade;
-                }
-                break;
+    foreach ($_SESSION['carrinho'] as $key => $item) {
+        if ($item['produto_id'] == $produto_id && $item['tamanho'] == $tamanho) {
+            if ($nova_quantidade <= 0) {
+                unset($_SESSION['carrinho'][$key]);
+                $_SESSION['carrinho'] = array_values($_SESSION['carrinho']); // Reindexa o array
+            } else {
+                $_SESSION['carrinho'][$key]['quantidade'] = $nova_quantidade;
             }
+            break;
         }
     }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vendas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/vendasStyle.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
@@ -89,104 +98,115 @@
         </form>
         <div class="vendas-lista">
             <?php 
-                $sql = "SELECT 
+            $sql = "SELECT 
                         produto.idproduto,
                         produto.nome,
                         produto.preco_uni,
                         produto.cor,
                         produto.quantidade_estoque,
                         tipo_produto.tipo AS tipo
-                        FROM produto 
-                        JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto $where";
-                $result = mysqli_query($conn, $sql);
-                if ($result && mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $produto_no_carrinho = false;
-                    $quantidade_carrinho = 0;
-                    $tamanho_carrinho = null;
-
-                    if (isset($_SESSION['carrinho'])) {
-                        foreach ($_SESSION['carrinho'] as $item) {
-                            if ($item['produto_id'] == $row['idproduto']) {
-                                $produto_no_carrinho = true;
-                                $quantidade_carrinho = $item['quantidade'];
-                                $tamanho_carrinho = $item['tamanho'];
-                                break;
-                            }
-                        }
-                    }
+                    FROM produto 
+                    JOIN tipo_produto ON produto.idtipo_produto = tipo_produto.idtipo_produto $where";
+            $result = mysqli_query($conn, $sql);
+            if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="vendas-card">
                 <div class="vendas-card-img">
-                    <img src="../assets/img/prod_img.svg" alt="Produto">
+                    <img src="../assets/img/prod_img.svg" alt="produto">
                 </div>
                 <div class="vendas-card-info">
-                    <div>
-                        <div class="vendas-card-title"><?php echo $row['nome'], " ", $row['cor']; ?></div>
-                        <div class="vendas-card-price-container">
-                            <span class="vendas-card-price">R$ <?php echo number_format($row['preco_uni'], 2, ',', '.'); ?></span>
-                            <span class="vendas-card-estoque">Estoque: <?php echo $row['quantidade_estoque']; ?></span>
-                        </div>
+                    <span class="vendas-card-title"><?php echo $row['nome'] . ' ' . $row['cor']; ?></span>
+                    <div class="vendas-card-price-line">
+                        <span class="vendas-card-price">R$ <?php echo number_format($row['preco_uni'], 2, ',', '.'); ?></span>
+                        <span class="vendas-card-estoque">Estoque: <?php echo $row['quantidade_estoque']; ?></span>
                     </div>
-                    <div class="vendas-card-actions">
+                    <div class="vendas-card-icons">
                         <?php if($row['tipo'] != 'óculos'): ?>
                             <div class='dropdown'>
-                                <select name='tamanho' required>
-                                    <option value=''></option>
-                                    <?php
-                                    if($row['tipo'] == 'camiseta'){
-                                        $tamanhos = ['PP', 'P','M', 'G', 'GG'];
-                                        foreach($tamanhos as $tamanho){ 
-                                            $selected = ($tamanho == $tamanho_carrinho) ? 'selected' : '';
-                                            echo "<option value='{$tamanho}' {$selected}>{$tamanho}</option>";
+                                <form method="POST">
+                                    <select name='tamanhos' required>
+                                        <option value=''></option>
+                                        <?php
+                                        if ($row['tipo'] == 'camiseta') {
+                                            $tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
+                                            foreach ($tamanhos as $t) {
+                                                $selected = '';
+                                                // Verifica se este tamanho está no carrinho
+                                                foreach ($_SESSION['carrinho'] as $item) {
+                                                    if ($item['produto_id'] == $row['idproduto'] && $item['tamanho'] == $t) {
+                                                        $selected = 'selected';
+                                                        break;
+                                                    }
+                                                }
+                                                echo "<option value='{$t}' {$selected}>{$t}</option>";
+                                            }
+                                        } else {
+                                            for ($i = 34; $i <= 45; $i++) {
+                                                $selected = '';
+                                                // Verifica se este tamanho está no carrinho
+                                                foreach ($_SESSION['carrinho'] as $item) {
+                                                    if ($item['produto_id'] == $row['idproduto'] && $item['tamanho'] == $i) {
+                                                        $selected = 'selected';
+                                                        break;
+                                                    }
+                                                }
+                                                echo "<option value='{$i}' {$selected}>{$i}</option>";
+                                            }
                                         }
-                                    }else{
-                                        for($i=34; $i <= 45; $i++){
-                                            $selected = ($i == $tamanho_carrinho) ? 'selected' : '';
-                                            echo "<option value='{$i}' {$selected}>{$i}</option>";
-                                        }
-                                    }
-                                    ?>
-                                </select>
+                                        ?>
+                                    </select>
+                                </form>
                             </div>
                         <?php endif; ?>
-
-                        <?php if(!$produto_no_carrinho): ?>
-                            <form method="POST" style="display: inline;">
-                                <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
-                                <input type="hidden" name="quantidade" value="1">
-                                <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
-                                <button type="submit" name="adicionar_carrinho" class="btn-carrinho">
-                                    <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
-                                </button>
-                            </form>
-                        <?php else: ?>
-                            <div class="quantidade-container">
-                                <form method="POST" style="display: inline;">
-                                    <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
-                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
-                                    <input type="hidden" name="nova_quantidade" value="<?php echo $quantidade_carrinho - 1; ?>">
+                        <div class="vendas-card-carrinho-group">
+                            <?php 
+                            $qntd = 0;
+                            $tamanho = '';
+                            // Verifica se o produto está no carrinho
+                            foreach ($_SESSION['carrinho'] as $item) {
+                                if ($item['produto_id'] == $row['idproduto']) {
+                                    $qntd = $item['quantidade'];
+                                    $tamanho = $item['tamanho'];
+                                    break;
+                                }
+                            }
+                            
+                            if($qntd == 0): ?>
+                                <form method="POST">
+                                    <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                    <input type="hidden" name="quantidade" value="1">
+                                    <button type="submit" name="carrinho" class="btn-carrinho">
+                                        <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
+                                    </button>
+                                </form>
+                            <?php else: ?>
+                                <form method="POST">
+                                    <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
+                                    <input type="hidden" name="quantidade" value="<?php echo $qntd - 1; ?>">
                                     <button type="submit" name="alterar_quantidade" class="btn-diminuir">-</button>
                                 </form>
-                                <span class="quantidade"><?php echo $quantidade_carrinho; ?></span>
-                                <form method="POST" style="display: inline;">
-                                    <input type="hidden" name="produto_id" value="<?php echo $row['idproduto']; ?>">
-                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho_carrinho; ?>">
-                                    <input type="hidden" name="nova_quantidade" value="<?php echo $quantidade_carrinho + 1; ?>">
+                                <span class="quantidade"><?php echo $qntd; ?></span>
+                                <form method="POST">
+                                    <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                    <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
+                                    <input type="hidden" name="quantidade" value="<?php echo $qntd + 1; ?>">
                                     <button type="submit" name="alterar_quantidade" class="btn-aumentar">+</button>
                                 </form>
-                            </div>
-                        <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <?php
                 }
             } else {
-                echo "<p style='margin: 20px;'>Nenhum produto encontrado.</p>";
+                echo "<p style='text-align: center;'>Nenhum produto encontrado.</p>";
             }
             ?>
         </div>
     </div>
 </body>
-</html>  
+</html>
