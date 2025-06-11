@@ -36,6 +36,7 @@
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
+        <a href="pdfProduto.php"><img src="../assets/img/pdfCinza.svg" alt="PDF Produtos em Estoque" style="width:60px;" /></a>
         <a href="cadastro_prod.php"><img src="../assets/img/add_prod.svg" alt="adicionar"></a>
         <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
     </div>
