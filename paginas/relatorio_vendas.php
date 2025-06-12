@@ -2,10 +2,14 @@
 session_start();
 include_once '../db/conexao.php';
 
+$cargo = $_SESSION['cargo']; 
+$idFuncionarioLogado = $_SESSION['idfuncionario'];
 $funcionario = isset($_GET['funcionario']) ? mysqli_real_escape_string($conn, $_GET['funcionario']) : '';
 
 $where = '';
-if (!empty($funcionario)) {
+if ($cargo == 'funcionario') {
+    $where = "WHERE f.idfuncionario = '$idFuncionarioLogado'";
+} elseif (!empty($funcionario)) {
     $where = "WHERE f.idfuncionario = '$funcionario'";
 }
 
@@ -27,7 +31,7 @@ ORDER BY v.idvenda DESC";
 $result = mysqli_query($conn, $sql);
 
 // Consulta funcionários para filtro
-$sqlFunc = "SELECT idfuncionario, nome FROM funcionario"; 
+$sqlFunc = "SELECT idfuncionario, nome FROM funcionario WHERE cargo != 'apagado'"; 
 $resultFunc = mysqli_query($conn, $sqlFunc);
 ?>
 
@@ -75,19 +79,21 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
 <div class="container mt-4">
 
     <!-- Filtro por funcionário -->
-    <form method="GET" class="mb-4">
-        <div class="d-flex flex-wrap justify-content-center form-form">
-            <?php while ($func = mysqli_fetch_assoc($resultFunc)): ?>
-                <button 
-                    type="submit" 
-                    name="funcionario" 
-                    value="<?= $func['idfuncionario'] ?>" 
-                    class="btn-color <?= ($funcionario == $func['idfuncionario']) ? 'ativo' : '' ?>">
-                    <?= $func['nome'] ?>
-                </button>
-            <?php endwhile; ?>
-        </div>
-    </form>
+    <?php if ($cargo == 'gerente'): ?>
+        <form method="GET" class="mb-4">
+            <div class="d-flex flex-wrap justify-content-center form-form">
+                <?php while ($func = mysqli_fetch_assoc($resultFunc)): ?>
+                    <button 
+                        type="submit" 
+                        name="funcionario" 
+                        value="<?= $func['idfuncionario'] ?>" 
+                        class="btn-color <?= ($funcionario == $func['idfuncionario']) ? 'ativo' : '' ?>">
+                        <?= $func['nome'] ?>
+                    </button>
+                <?php endwhile; ?>
+            </div>
+        </form>
+    <?php endif; ?>
 
     <!-- Tabela resumo de pedidos -->
     <table class="table table-bordered table-hover">

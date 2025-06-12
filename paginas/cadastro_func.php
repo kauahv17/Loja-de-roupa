@@ -64,7 +64,11 @@
                     <input type="text" name="nome" placeholder="nome" value="<?php echo $row['nome']; ?>" required>
                     <input type="text" name="cpf" placeholder="cpf" value="<?php echo $row['cpf']; ?>" <?php echo ($idfuncionario !== null) ? 'readonly' : ''; ?> required>
                     <input type="text" name="email" placeholder="email" value="<?php echo $row['email']; ?>" required>
-                    <input type="text" name="cargo" placeholder="cargo" value="<?php echo $row['cargo']; ?>" required>
+                    <select name="cargo" required class="form-control">
+                        <option value="" disabled selected>Selecione o cargo</option>
+                        <option value="funcionario" <?php if($row['cargo'] == 'funcionario') echo 'selected'; ?>>Funcionário</option>
+                        <option value="gerente" <?php if($row['cargo'] == 'gerente') echo 'selected'; ?>>Gerente</option>
+                    </select>
                     <input type="password" name="senha" placeholder="senha" value="" required>
                     <button type="submit"><?php echo ($idfuncionario !== null) ? 'Atualizar' : 'Cadastrar'; ?></button>
                 </form>
