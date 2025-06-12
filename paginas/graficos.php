@@ -21,7 +21,7 @@
             <a href="relatorio_vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         </div>
             <div class="settings-icone right" onclick="toggleMenu()">
-                <div class="settings-icon right" onclick="toggleSidebar()">
+                <div class="chart-icon right" onclick="toggleSidebar()">
                     <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
                 </div>
                 <div class="sidebar" id="sidebar">
@@ -35,9 +35,6 @@
                 </a>
                 </div>
             </div>
-        <div class="chart-icon right">
-            
-        </div>
         <h1 class="text-center">Gráficos da Loja</h1><br><br>
         
 
