@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
     <link rel="stylesheet" href="../assets/css/fornecedorStyle.css">
+    <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 </head>
 <body>
     <div class="settings-icon left">
@@ -18,7 +19,17 @@
     </div>
     <div class="settings-icon right">
         <a href="./cadastro_forn.php"><img src="../assets/img/add_forn.svg" alt="Adicionar"></a>
-        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+        <div class="settings-icone" onclick="toggleSidebar()">
+            <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+            <div class="sidebar" id="sidebar">
+                <h2>Configurações</h2>
+                <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="../index.php">
+                    <img src="../assets/img/sair.svg" alt="Sair"> 
+                </a>
+            </div>
+        </div>
     </div>
     <div class="fornecedor-container">
         <div class="fornecedor-header">
@@ -59,5 +70,6 @@
             ?>
         </div>
     </div>
+    <script src="../js/configuracoes.js"></script>
 </body>
 </html>

@@ -30,15 +30,26 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
     <link rel="stylesheet" href="../assets/css/estoqueStyle.css">
+    <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 </head>
 <body>
     <div class="settings-icon left">
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
     <div class="settings-icon right">
-        <a href="pdfProduto.php"><img src="../assets/img/pdfCinza.svg" alt="PDF Produtos em Estoque" style="width:60px;" /></a>
+        <a href="pdfProduto.php"><img src="../assets/img/pdf.svg" alt="PDF Produtos em Estoque" style="width:60px;" /></a>
         <a href="cadastro_prod.php"><img src="../assets/img/add_prod.svg" alt="adicionar"></a>
-        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+        <div class="settings-icone" onclick="toggleSidebar()">
+            <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+            <div class="sidebar" id="sidebar">
+                <h2>Configurações</h2>
+                <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="../index.php">
+                    <img src="../assets/img/sair.svg" alt="Sair"> 
+                </a>
+            </div>
+        </div>
     </div>
     <div class="estoque-container">
         <div class="estoque-header">
@@ -106,5 +117,6 @@
             ?>
         </div>
     </div>
+    <script src="../js/configuracoes.js"></script>
 </body>
 </html>

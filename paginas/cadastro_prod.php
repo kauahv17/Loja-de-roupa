@@ -26,8 +26,8 @@
             <div class="form-right">
                 <div class="settings-icon right">
                     <a href="estoque.php"><img src="../assets/img/voltar.svg" alt="voltar"></a>
-                    <div onclick="toggleSidebar()">
-                        <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">                    
+                    <div class="settings-icone" onclick="toggleSidebar()">
+                        <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
                         <div class="sidebar" id="sidebar">
                             <h2>Configurações</h2>
                             <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>

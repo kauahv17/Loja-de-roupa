@@ -78,16 +78,28 @@ if (isset($_POST['alterar_quantidade'])) {
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/vendasStyle.css">
     <link rel="stylesheet" href="../assets/css/headerStyle.css">
+    <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 </head>
 <body>
     <div class="settings-icon left">
         <a href="home.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
     </div>
-    <div class="settings-icon right">
-        <a href="carrinho.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
-        <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+    <div class="settings-icon right">    
         <a href="pdfVendasPorDia.php"><img src="../assets/img/pdf.svg" alt="PDF Vendas Por Dia" style="width:60px;" /></a>
+        <a href="carrinho.php"><img src="../assets/img/carrinho.svg" alt="carrinho"></a>
+        <div class="settings-icone" id="config-icone" onclick="toggleSidebar()">           
+            <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">                    
+            <div class="sidebar" id="sidebar">
+                <h2>Configurações</h2>
+                <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="../index.php">
+                    <img src="../assets/img/sair.svg" alt="Sair"> 
+                </a>
+            </div>
+        </div>
     </div>
+    
     <div class="vendas-container">
         <div class="vendas-header">
             <div class="h1-right">Vendas</div>
@@ -208,5 +220,22 @@ if (isset($_POST['alterar_quantidade'])) {
             ?>
         </div>
     </div>
+
 </body>
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+}
+
+document.addEventListener('mousedown', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const configIcone = document.getElementById('config-icone');
+    if (sidebar.classList.contains('active')) {
+        if (!sidebar.contains(event.target) && !configIcone.contains(event.target)) {
+            sidebar.classList.remove('active');
+        }
+    }
+});
+</script>
 </html>

@@ -5,7 +5,7 @@ body {
 }
 
 .menu-button {
-  background-color: #D97904;
+  
   color: white;
   padding: 10px 20px;
   border: none;
@@ -17,20 +17,16 @@ body {
   transition: background 0.3s ease;
 }
 
-.menu-button:hover {
-  background-color: #D97904;
-}
+
 
 .settings-icone {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-  z-index: 1100;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
 }
 
 .settings-icone img {
   width: 60px;
-  filter: brightness(0.8);
   transition: transform 0.3s ease;
 }
 

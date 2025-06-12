@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/formStyle.css">
     <link rel="stylesheet" href="../assets/css/homeStyle.css">
-    <link rel="stylesheet" href="../assets/css/configStyle.css">
-    <link rel="stylesheet" href="../assets/css/btConfigStyle.css">
     <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 </head>
 

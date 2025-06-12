@@ -6,7 +6,7 @@ function toggleSidebar() {
         // Fecha o menu ao clicar fora dele
         document.addEventListener('click', function (event) {
             const sidebar = document.getElementById('sidebar');
-            const settingsIcon = document.querySelector('.settings-icon');
+            const settingsIcon = document.querySelector('.settings-icone');
 
             const clickedInsideSidebar = sidebar.contains(event.target);
             const clickedSettingsIcon = settingsIcon.contains(event.target);

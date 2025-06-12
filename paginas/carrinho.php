@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="../assets/img/logo_ME.png">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/carrinhoStyle.css">
+    <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
 
 </head>
 <body>
@@ -17,8 +18,17 @@
             <a href="vendas.php"><img src="../assets/img/voltar.svg" alt="Voltar"></a>
         </div>
         <div class="settings-icon right">
-            <a href="vendas.php"><img src="../assets/img/voltar.svg" alt="carrinho"></a>
-            <a href="../index.php"><img src="../assets/img/gear.svg" alt="Configurações"></a>
+            <div class="settings-icone" onclick="toggleSidebar()">
+                <img src="../assets/img/gear.svg" alt="Configurações" style="cursor: pointer;">
+                <div class="sidebar" id="sidebar">
+                    <h2>Configurações</h2>
+                    <h4><strong>Nome:</strong> <?php echo $_SESSION['nome']; ?></h4>
+                    <h4><strong>ID:</strong> <?php echo $_SESSION['idfuncionario']; ?></h4><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    <a href="../index.php">
+                        <img src="../assets/img/sair.svg" alt="Sair"> 
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="carrinho-container">
             <div class="carrinho-header">
@@ -118,5 +128,6 @@
 
         </div>
     </div>
+    <script src="../js/configuracoes.js"></script>
 </body>
 </html>
