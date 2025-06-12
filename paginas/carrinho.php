@@ -38,6 +38,130 @@
         header('Location: carrinho.php');
         exit;
     }
+
+    // Processar finalização da compra
+    if (isset($_POST['finalizar_compra'])) {
+        if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
+            echo "<script>alert('O carrinho está vazio! Adicione produtos antes de finalizar a compra.'); window.location.href='carrinho.php';</script>";
+            exit;
+        }
+
+        $idcliente = $_POST['idcliente'];
+        // Verifica se um cliente foi selecionado
+        if (empty($idcliente)) {
+            echo "<script>alert('Por favor, selecione um cliente para finalizar a compra.'); window.location.href='carrinho.php';</script>";
+            exit;
+        }
+        $idfuncionario = $_SESSION['idfuncionario'] ?? null; // Assuming this is set in session
+
+        if (!$idfuncionario) {
+             echo "<script>alert('Erro: ID do funcionário não encontrado na sessão.'); window.location.href='index.php';</script>";
+             exit;
+        }
+
+        // Recalcular total e quantidade total a partir da sessão para evitar adulteração
+        $valor_total_pedido = 0;
+        $quantidade_total_pedido = 0;
+        foreach ($_SESSION['carrinho'] as $item) {
+            $produto_id = $item['produto_id'];
+            $quantidade = $item['quantidade'];
+
+            $sql_prod = "SELECT preco_uni FROM produto WHERE idproduto = ?";
+            $stmt_prod = mysqli_prepare($conn, $sql_prod);
+            mysqli_stmt_bind_param($stmt_prod, "i", $produto_id);
+            mysqli_stmt_execute($stmt_prod);
+            $result_prod = mysqli_stmt_get_result($stmt_prod);
+            $produto_info = mysqli_fetch_assoc($result_prod);
+            mysqli_stmt_close($stmt_prod);
+
+
+            if ($produto_info) {
+                $valor_total_pedido += $produto_info['preco_uni'] * $quantidade;
+                $quantidade_total_pedido += $quantidade;
+            } else {
+                 echo "<script>alert('Erro: Produto no carrinho não encontrado no banco de dados.'); window.location.href='carrinho.php';</script>";
+                 exit;
+            }
+        }
+
+        mysqli_begin_transaction($conn);
+
+        try {
+            // 1. Inserir na tabela 'pedido'
+            $sql_pedido = "INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES (?, ?, ?, ?)";
+            $stmt_pedido = mysqli_prepare($conn, $sql_pedido);
+            mysqli_stmt_bind_param($stmt_pedido, "diis", $valor_total_pedido, $quantidade_total_pedido, $idfuncionario, $idcliente);
+            mysqli_stmt_execute($stmt_pedido);
+            $idpedido = mysqli_insert_id($conn);
+            mysqli_stmt_close($stmt_pedido);
+
+            if (!$idpedido) {
+                throw new Exception("Erro ao inserir pedido.");
+            }
+
+            // 2. Inserir na tabela 'produto_pedido' e atualizar estoque
+            foreach ($_SESSION['carrinho'] as $item) {
+                $produto_id = $item['produto_id'];
+                $quantidade = $item['quantidade'];
+                $tamanho = $item['tamanho'] ?? null;
+
+                // Obter preco_uni do produto para preco_ped
+                $sql_get_preco = "SELECT preco_uni, quantidade_estoque FROM produto WHERE idproduto = ?";
+                $stmt_get_preco = mysqli_prepare($conn, $sql_get_preco);
+                mysqli_stmt_bind_param($stmt_get_preco, "i", $produto_id);
+                mysqli_stmt_execute($stmt_get_preco);
+                $result_get_preco = mysqli_stmt_get_result($stmt_get_preco);
+                $produto_data = mysqli_fetch_assoc($result_get_preco);
+                $preco_ped = $produto_data['preco_uni'];
+                $estoque_atual = $produto_data['quantidade_estoque'];
+                mysqli_stmt_close($stmt_get_preco);
+
+                if ($estoque_atual < $quantidade) {
+                    throw new Exception("Estoque insuficiente para o produto " . $produto['nome'] . " (ID: " . $produto_id . "). Estoque atual: " . $estoque_atual . ", quantidade solicitada: " . $quantidade);
+                }
+
+                // Inserir em produto_pedido
+                $sql_produto_pedido = "INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES (?, ?, ?, ?, ?)";
+                $stmt_produto_pedido = mysqli_prepare($conn, $sql_produto_pedido);
+                mysqli_stmt_bind_param($stmt_produto_pedido, "iiids", $idpedido, $produto_id, $quantidade, $preco_ped, $tamanho);
+                mysqli_stmt_execute($stmt_produto_pedido);
+                if (mysqli_stmt_affected_rows($stmt_produto_pedido) <= 0) {
+                    throw new Exception("Erro ao inserir produto no pedido.");
+                }
+                mysqli_stmt_close($stmt_produto_pedido);
+
+                // Atualizar estoque
+                $sql_update_estoque = "UPDATE produto SET quantidade_estoque = quantidade_estoque - ? WHERE idproduto = ?";
+                $stmt_update_estoque = mysqli_prepare($conn, $sql_update_estoque);
+                mysqli_stmt_bind_param($stmt_update_estoque, "ii", $quantidade, $produto_id);
+                mysqli_stmt_execute($stmt_update_estoque);
+                if (mysqli_stmt_affected_rows($stmt_update_estoque) <= 0) {
+                    throw new Exception("Erro ao atualizar estoque.");
+                }
+                mysqli_stmt_close($stmt_update_estoque);
+            }
+
+            // 3. Inserir na tabela 'venda'
+            $sql_venda = "INSERT INTO venda (idpedido) VALUES (?)";
+            $stmt_venda = mysqli_prepare($conn, $sql_venda);
+            mysqli_stmt_bind_param($stmt_venda, "i", $idpedido);
+            mysqli_stmt_execute($stmt_venda);
+            if (mysqli_stmt_affected_rows($stmt_venda) <= 0) {
+                throw new Exception("Erro ao inserir venda.");
+            }
+            mysqli_stmt_close($stmt_venda);
+
+            mysqli_commit($conn);
+            unset($_SESSION['carrinho']); // Limpar carrinho após a compra
+            echo "<script>alert('Venda finalizada com sucesso!'); window.location.href='vendas.php';</script>";
+            exit;
+
+        } catch (Exception $e) {
+            mysqli_rollback($conn);
+            echo "<script>alert('Erro ao finalizar venda: " . $e->getMessage() . "'); window.location.href='carrinho.php';</script>";
+            exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -145,39 +269,36 @@
                     echo "<p style='text-align: center;'>Nenhum produto selecionado.</p>";
                 }
                 ?>
-
-
+            </div>
 
             <div class="carrinho-header">
                 <div class="h1-right">Cliente</div>
             </div>
-            <div class="carrinho-busca-group">
-                <form class="carrinho-search">
+            <form method="POST" action="carrinho.php">
+                <div class="carrinho-busca-group">
                     <select class="carrinho-select" name="idcliente" required>
                         <option value="">Selecione o cliente</option>
                         <?php
-                            $sql = "SELECT idcliente, cpf FROM cliente ORDER BY cpf ASC";
+                            $sql = "SELECT idcliente, cpf, nome FROM cliente ORDER BY cpf ASC";
                             $result = mysqli_query($conn, $sql);
                             if($result){
                                 while($row = mysqli_fetch_assoc($result)){
-                                echo "<option value='{$row['idcliente']}'>{$row['cpf']}</option>";
+                                    $clienteDisplay = $row['cpf'] . ' - ' . $row['nome'];
+                                    echo "<option value='{$row['idcliente']}'>{$clienteDisplay}</option>";
                                 }
                             } else {
                                 echo "<option value=''>Erro ao carregar clientes</option>";
                             }
                         ?>
                     </select>
-                    <button type="submit" class="carrinho-search-btn"><img src="../assets/img/lupa.svg" alt="Buscar"></button>
-                </form>
-                <a href="cadastro_cliente.php"><button class="carrinho-button">Cadastrar Cliente</button></a>
-            </div>
-            <div class="carrinho-valor-total">
-                <span class="total">Valor total ----------------------------------------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
-            </div>
+                </div>
+                <a href="cadastro_cliente.php"><button type="button" class="carrinho-button">Cadastrar Cliente</button></a>
+                <div class="carrinho-valor-total">
+                    <span class="total">Valor total ----------------------------------------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
+                </div>
 
-
-            <a href="cadastro_cliente.php"><button class="carrinho-button">Finalizar compra</button></a>
-
+                <button type="submit" name="finalizar_compra" class="carrinho-button">Finalizar compra</button>
+            </form>
         </div>
     </div>
     <script src="../js/configuracoes.js"></script>
