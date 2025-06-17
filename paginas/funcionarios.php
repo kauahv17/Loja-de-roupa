@@ -45,10 +45,10 @@
         <div class="funcionario-lista">
             <?php 
                 include_once '../db/conexao.php';
-                $where = "WHERE funcionario.cargo = 'funcionario'";
+                $where = "WHERE funcionario.cargo != 'apagado'";
                 if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
                     $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
-                    $where = "WHERE funcionario.cargo = 'funcionario' AND (funcionario.nome LIKE '%$pesquisa%' OR funcionario.cpf LIKE '%$pesquisa%')";
+                    $where = "WHERE funcionario.cargo != 'apagado' AND (funcionario.nome LIKE '%$pesquisa%' OR funcionario.cpf LIKE '%$pesquisa%')";
                 }
                 $sql = "SELECT 
                             funcionario.idfuncionario as id,
