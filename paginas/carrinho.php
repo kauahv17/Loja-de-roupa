@@ -62,10 +62,34 @@
         // Recalcular total e quantidade total a partir da sessão para evitar adulteração
         $valor_total_pedido = 0;
         $quantidade_total_pedido = 0;
+
+        // ** Nova verificação de estoque antes de iniciar a transação **
         foreach ($_SESSION['carrinho'] as $item) {
             $produto_id = $item['produto_id'];
-            $quantidade = $item['quantidade'];
+            $quantidade_solicitada = $item['quantidade'];
 
+            $sql_check_estoque = "SELECT nome, quantidade_estoque FROM produto WHERE idproduto = ?";
+            $stmt_check_estoque = mysqli_prepare($conn, $sql_check_estoque);
+            mysqli_stmt_bind_param($stmt_check_estoque, "i", $produto_id);
+            mysqli_stmt_execute($stmt_check_estoque);
+            $result_check_estoque = mysqli_stmt_get_result($stmt_check_estoque);
+            $produto_estoque_info = mysqli_fetch_assoc($result_check_estoque);
+            mysqli_stmt_close($stmt_check_estoque);
+
+            if (empty($produto_estoque_info)) {
+                echo '<script>alert("Erro: Produto no carrinho não encontrado no banco de dados. (ID: ' . json_encode($produto_id) . ')"); window.location.href="carrinho.php";</script>';
+                exit;
+            }
+
+            $nome_produto = $produto_estoque_info['nome'];
+            $estoque_atual = $produto_estoque_info['quantidade_estoque'];
+
+            if ($estoque_atual < $quantidade_solicitada) {
+                echo '<script>alert("Estoque insuficiente para o produto: ' . json_encode($nome_produto) . '. Disponível: ' . json_encode($estoque_atual) . ', Quantidade no carrinho: ' . json_encode($quantidade_solicitada) . '); window.location.href="carrinho.php";</script>';
+                exit;
+            }
+
+            // Recalcular total e quantidade total
             $sql_prod = "SELECT preco_uni FROM produto WHERE idproduto = ?";
             $stmt_prod = mysqli_prepare($conn, $sql_prod);
             mysqli_stmt_bind_param($stmt_prod, "i", $produto_id);
@@ -74,13 +98,13 @@
             $produto_info = mysqli_fetch_assoc($result_prod);
             mysqli_stmt_close($stmt_prod);
 
-
             if ($produto_info) {
-                $valor_total_pedido += $produto_info['preco_uni'] * $quantidade;
-                $quantidade_total_pedido += $quantidade;
+                $valor_total_pedido += $produto_info['preco_uni'] * $quantidade_solicitada;
+                $quantidade_total_pedido += $quantidade_solicitada;
             } else {
-                 echo "<script>alert('Erro: Produto no carrinho não encontrado no banco de dados.'); window.location.href='carrinho.php';</script>";
-                 exit;
+                // Esta verificação pode ser redundante se a anterior já falhou, mas é uma garantia
+                echo "<script>alert('Erro: Produto no carrinho não encontrado no banco de dados.'); window.location.href='carrinho.php';</script>";
+                exit;
             }
         }
 
@@ -102,28 +126,23 @@
             // 2. Inserir na tabela 'produto_pedido' e atualizar estoque
             foreach ($_SESSION['carrinho'] as $item) {
                 $produto_id = $item['produto_id'];
-                $quantidade = $item['quantidade'];
+                $quantidade_solicitada = $item['quantidade'];
                 $tamanho = $item['tamanho'] ?? null;
 
                 // Obter preco_uni do produto para preco_ped
-                $sql_get_preco = "SELECT preco_uni, quantidade_estoque FROM produto WHERE idproduto = ?";
+                $sql_get_preco = "SELECT preco_uni FROM produto WHERE idproduto = ?";
                 $stmt_get_preco = mysqli_prepare($conn, $sql_get_preco);
                 mysqli_stmt_bind_param($stmt_get_preco, "i", $produto_id);
                 mysqli_stmt_execute($stmt_get_preco);
                 $result_get_preco = mysqli_stmt_get_result($stmt_get_preco);
                 $produto_data = mysqli_fetch_assoc($result_get_preco);
                 $preco_ped = $produto_data['preco_uni'];
-                $estoque_atual = $produto_data['quantidade_estoque'];
                 mysqli_stmt_close($stmt_get_preco);
-
-                if ($estoque_atual < $quantidade) {
-                    throw new Exception("Estoque insuficiente para o produto " . $produto['nome'] . " (ID: " . $produto_id . "). Estoque atual: " . $estoque_atual . ", quantidade solicitada: " . $quantidade);
-                }
 
                 // Inserir em produto_pedido
                 $sql_produto_pedido = "INSERT INTO produto_pedido (idpedido, idproduto, quantidade, preco_ped, tamanho) VALUES (?, ?, ?, ?, ?)";
                 $stmt_produto_pedido = mysqli_prepare($conn, $sql_produto_pedido);
-                mysqli_stmt_bind_param($stmt_produto_pedido, "iiids", $idpedido, $produto_id, $quantidade, $preco_ped, $tamanho);
+                mysqli_stmt_bind_param($stmt_produto_pedido, "iiids", $idpedido, $produto_id, $quantidade_solicitada, $preco_ped, $tamanho);
                 mysqli_stmt_execute($stmt_produto_pedido);
                 if (mysqli_stmt_affected_rows($stmt_produto_pedido) <= 0) {
                     throw new Exception("Erro ao inserir produto no pedido.");
@@ -133,7 +152,7 @@
                 // Atualizar estoque
                 $sql_update_estoque = "UPDATE produto SET quantidade_estoque = quantidade_estoque - ? WHERE idproduto = ?";
                 $stmt_update_estoque = mysqli_prepare($conn, $sql_update_estoque);
-                mysqli_stmt_bind_param($stmt_update_estoque, "ii", $quantidade, $produto_id);
+                mysqli_stmt_bind_param($stmt_update_estoque, "ii", $quantidade_solicitada, $produto_id);
                 mysqli_stmt_execute($stmt_update_estoque);
                 if (mysqli_stmt_affected_rows($stmt_update_estoque) <= 0) {
                     throw new Exception("Erro ao atualizar estoque.");
@@ -153,7 +172,7 @@
 
             mysqli_commit($conn);
             unset($_SESSION['carrinho']); // Limpar carrinho após a compra
-            echo "<script>alert('Venda finalizada com sucesso!'); window.location.href='vendas.php';</script>";
+            echo "<script>window.location.href='pagamentos.php';</script>";
             exit;
 
         } catch (Exception $e) {
@@ -173,7 +192,24 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/carrinhoStyle.css">
     <link rel="stylesheet" href="../assets/css/sidebarStyle.css">
-
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+    .select2-container--default .select2-selection--single {
+        border-radius: 8px;
+        height: 38px;
+        padding: 4px 12px;
+        font-size: 1rem;
+        border: 1px solid #bbb;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 30px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px;
+        right: 8px;
+    }
+    </style>
 </head>
 <body>
     <div class="settings-icon left">
@@ -225,40 +261,38 @@
                     <div class="carrinho-card-img">
                         <img src="../assets/img/prod_img.svg" alt="Produto">
                     </div>
-                    <div class="carrinho-card-group">
-                        <div class="carrinho-card-info">
-                                <span class="carrinho-card-title"><?php echo $produto['nome'] . ' ' . $produto['cor']; ?></span>
-                                <span class="carrinho-card-price">R$ <?php echo number_format($produto['preco_uni'], 2, ',', '.'); ?></span>
-                        </div>
-                        <div class="carrinho-card-var">
-                                <span class="carrinho-card-sum">R$ <?php echo number_format($subtotal, 2, ',', '.'); ?></span>
-                                <?php if($produto['tipo'] != 'óculos'): ?>
-                                    <span class="tamanho">Tamanho: <?php echo $tamanho !== '' ? $tamanho : 'Não informado'; ?></span>
-                                <?php endif; ?>
-                        </div>
+                    <div class="carrinho-card-info">
+                        <span class="carrinho-card-title"><?php echo $produto['nome']; ?></span>
+                        <span class="carrinho-card-price">R$ <?php echo number_format($produto['preco_uni'], 2, ',', '.'); ?></span>
                     </div>
-                    <div class="carrinho-card-img-trash">
-                            <form method="POST" style="margin: 0;">
-                                <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
-                                <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
-                                <button type="submit" name="remover_item" style="background: none; border: none; cursor: pointer;">
-                                    <img src="../assets/img/lixeira.svg" alt="Remover">
-                                </button>
-                            </form>
-                    </div>
-                    <div class="carrinho-card-qntd-group">
-                        <form method="POST">
-                                <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
+                    <div class="carrinho-card-center">
+                        <span class="carrinho-card-sum">R$ <?php echo number_format($subtotal, 2, ',', '.'); ?></span>
+                        <?php if($produto['tipo'] != 'óculos'): ?>
+                            <select class="carrinho-tamanho-select" disabled>
+                                <option><?php echo $tamanho !== '' ? $tamanho : 'Tamanho'; ?></option>
+                            </select>
+                        <?php endif; ?>
+                        <form method="POST" class="carrinho-trash-form">
+                            <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
                             <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
-                                <input type="hidden" name="quantidade" value="<?php echo $quantidade - 1; ?>">
-                            <button type="submit" name="alterar_quantidade">-</button>
+                            <button type="submit" name="remover_item" class="carrinho-trash-btn">
+                                <img src="../assets/img/lixeira.svg" alt="Remover">
+                            </button>
                         </form>
-                            <span class="quantidade"><?php echo $quantidade; ?></span>
-                        <form method="POST">
-                                <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
+                    </div>
+                    <div class="carrinho-card-actions-vertical">
+                        <form method="POST" class="carrinho-qtd-form">
+                            <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
                             <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
-                                <input type="hidden" name="quantidade" value="<?php echo $quantidade + 1; ?>">
-                            <button type="submit" name="alterar_quantidade">+</button>
+                            <input type="hidden" name="quantidade" value="<?php echo $quantidade - 1; ?>">
+                            <button type="submit" name="alterar_quantidade" class="qtd-btn">-</button>
+                        </form>
+                        <span class="quantidade"><?php echo $quantidade; ?></span>
+                        <form method="POST" class="carrinho-qtd-form">
+                            <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
+                            <input type="hidden" name="tamanho" value="<?php echo $tamanho; ?>">
+                            <input type="hidden" name="quantidade" value="<?php echo $quantidade + 1; ?>">
+                            <button type="submit" name="alterar_quantidade" class="qtd-btn">+</button>
                         </form>
                     </div>
                 </div>
@@ -275,8 +309,8 @@
                 <div class="h1-right">Cliente</div>
             </div>
             <form method="POST" action="carrinho.php">
-                <div class="carrinho-busca-group">
-                    <select class="carrinho-select" name="idcliente" required>
+                <div class="carrinho-busca-group" style="display: flex; align-items: center; gap: 16px;">
+                    <select class="carrinho-select" name="idcliente" id="select-cliente" required>
                         <option value="">Selecione o cliente</option>
                         <?php
                             $sql = "SELECT idcliente, cpf, nome FROM cliente ORDER BY cpf ASC";
@@ -291,16 +325,27 @@
                             }
                         ?>
                     </select>
+                    <a href="cadastro_cliente.php" class="carrinho-button" style="margin: 0;">Cadastrar Cliente</a>
                 </div>
-                <a href="cadastro_cliente.php"><button type="button" class="carrinho-button">Cadastrar Cliente</button></a>
                 <div class="carrinho-valor-total">
-                    <span class="total">Valor total ----------------------------------------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
-                </div>
+                    <span class="total">Valor total ----------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
+                </div><br><br><br>
 
                 <button type="submit" name="finalizar_compra" class="carrinho-button">Finalizar compra</button>
             </form>
         </div>
     </div>
     <script src="../js/configuracoes.js"></script>
+    <!-- jQuery e Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#select-cliente').select2({
+            placeholder: 'Selecione ou pesquise o cliente',
+            width: '100%'
+        });
+    });
+    </script>
 </body>
 </html>

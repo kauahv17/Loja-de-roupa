@@ -15,11 +15,11 @@ include_once '../db/conexao.php';
 $where = '';
 if ($pesquisa != '') {
     $pesquisa = mysqli_real_escape_string($conn, $pesquisa);
-    $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
+    $where = "WHERE LOWER(produto.nome) LIKE LOWER('%$pesquisa%') OR LOWER(tipo_produto.tipo) LIKE LOWER('%$pesquisa%')";
 }
 if ($categoria != '') {
     $categoria = mysqli_real_escape_string($conn, $categoria);
-    $where .= $where == '' ? "WHERE tipo_produto.tipo = '$categoria'" : " AND tipo_produto.tipo = '$categoria'";
+    $where .= $where == '' ? "WHERE LOWER(tipo_produto.tipo) = LOWER('$categoria')" : " AND LOWER(tipo_produto.tipo) = LOWER('$categoria')";
 }
 
 // Processar adição ao carrinho
@@ -27,16 +27,49 @@ if (isset($_POST['carrinho'])) {
     $produto_id = $_POST['idproduto'];
     $quantidade = $_POST['quantidade'];
 
+    // Obter quantidade_estoque do produto
+    $sql_estoque = "SELECT quantidade_estoque, nome FROM produto WHERE idproduto = ?";
+    $stmt_estoque = mysqli_prepare($conn, $sql_estoque);
+    mysqli_stmt_bind_param($stmt_estoque, "i", $produto_id);
+    mysqli_stmt_execute($stmt_estoque);
+    $result_estoque = mysqli_stmt_get_result($stmt_estoque);
+    $produto_info_estoque = mysqli_fetch_assoc($result_estoque);
+    mysqli_stmt_close($stmt_estoque);
+
+    if (!$produto_info_estoque) {
+        echo "<script>alert('Produto não encontrado.'); window.location.href='vendas.php';</script>";
+        exit;
+    }
+
+    $quantidade_disponivel = $produto_info_estoque['quantidade_estoque'];
+    $nome_produto = $produto_info_estoque['nome'];
+
+    // Verificar se há estoque suficiente para a quantidade que está sendo adicionada (incluindo o que já está no carrinho)
+    $quantidade_ja_no_carrinho = 0;
+    foreach ($_SESSION['carrinho'] as $item) {
+        if (isset($item['produto_id']) && $item['produto_id'] == $produto_id) {
+            $quantidade_ja_no_carrinho += $item['quantidade'];
+        }
+    }
+
+    if (($quantidade_ja_no_carrinho + $quantidade) > $quantidade_disponivel) {
+        echo "<script>alert('Estoque insuficiente para \'" . $nome_produto . "\'. Disponível: " . $quantidade_disponivel . ".'); window.location.href='vendas.php';</script>";
+        exit;
+    }
+
     $tamanhos_selecionados = $_POST['tamanhos'] ?? [];
-    if (!is_array($tamanhos_selecionados)) {
-        $tamanhos_selecionados = [$tamanhos_selecionados]; // Garante que é um array, mesmo que só um tamanho seja selecionado
+    // Se nenhum tamanho for selecionado (ex: para óculos), adiciona um valor vazio para o tamanho
+    if (!is_array($tamanhos_selecionados) || empty($tamanhos_selecionados)) {
+        $tamanhos_selecionados = ['']; 
     }
 
     foreach ($tamanhos_selecionados as $tamanho_selecionado) {
         // Verifica se o produto já está no carrinho com o mesmo tamanho
         $produto_existe = false;
         foreach ($_SESSION['carrinho'] as $key => $item) {
-            if (isset($item['produto_id'], $item['tamanho']) && $item['produto_id'] == $produto_id && $item['tamanho'] == $tamanho_selecionado) {
+            // Garante que a chave 'tamanho' existe para comparação
+            $item_tamanho = $item['tamanho'] ?? ''; 
+            if (isset($item['produto_id']) && $item['produto_id'] == $produto_id && $item_tamanho == $tamanho_selecionado) {
                 $_SESSION['carrinho'][$key]['quantidade'] += $quantidade;
                 $produto_existe = true;
                 break;
@@ -246,24 +279,7 @@ if (isset($_POST['alterar_quantidade'])) {
 
                         <?php if (!empty($items_in_cart_for_this_product)): // Se o produto estiver no carrinho para qualquer tamanho ?>
                             <?php foreach ($items_in_cart_for_this_product as $item_in_cart): ?>
-                            <div class="vendas-card-carrinho-group">
-                                    <form method="POST">
-                                        <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
-                                        <input type="hidden" name="tamanho" value="<?php echo $item_in_cart['tamanho'] ?? ''; ?>">
-                                        <input type="hidden" name="quantidade" value="<?php echo $item_in_cart['quantidade'] - 1; ?>">
-                                        <button type="submit" name="alterar_quantidade" class="btn-diminuir">-</button>
-                                    </form>
-                                    <span class="quantidade"><?php echo $item_in_cart['quantidade']; ?></span>
-                                    <form method="POST">
-                                        <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
-                                        <input type="hidden" name="tamanho" value="<?php echo $item_in_cart['tamanho'] ?? ''; ?>">
-                                        <input type="hidden" name="quantidade" value="<?php echo $item_in_cart['quantidade'] + 1; ?>">
-                                        <button type="submit" name="alterar_quantidade" class="btn-aumentar">+</button>
-                                    </form>
-                                    <?php if ($row['tipo'] != 'óculos' && isset($item_in_cart['tamanho']) && $item_in_cart['tamanho'] != ''): // Exibe o tamanho apenas se não for óculos e o tamanho não for vazio ?>
-                                        <span class="tamanho-exibido">(<?php echo $item_in_cart['tamanho']; ?>)</span>
-                                <?php endif; ?>
-                            </div>
+                            <!-- Removido o grupo de botões de quantidade -->
                             <?php endforeach; ?>
                         <?php elseif ($row['tipo'] == 'óculos'): // Apenas mostra adicionar ao carrinho para óculos se não estiver no carrinho ?>
                             <form method="POST">

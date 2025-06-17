@@ -124,7 +124,8 @@ INSERT INTO tipo_produto (idtipo_produto, tipo) VALUES
 (2, 'calça'),
 (3, 'tênis'),
 (4, 'short'),
-(5, 'óculos');
+(5, 'óculos'),
+(6, 'casaco');
 
 -- Inserir cliente
 INSERT INTO cliente (nome, cpf, telefone) VALUES
@@ -187,7 +188,12 @@ INSERT INTO produto (nome, quantidade_estoque, preco_uni, cor, idtipo_produto) V
 
 -- Óculos (2) - tipo 5
 ('Óculos de Sol Aviador', 20, 90.00, 'preto', 5),
-('Óculos de Grau Retrô', 18, 85.00, 'tartaruga', 5);
+('Óculos de Grau Retrô', 18, 85.00, 'tartaruga', 5),
+
+-- Casacos (3) - tipo 6
+('Jaqueta Jeans', 25, 120.00, 'azul', 6),
+('Moletom Canguru', 40, 85.00, 'preto', 6),
+('Blazer Casual', 15, 150.00, 'cinza', 6);
 
 
 -- Inserir produtos fornecidos (após produto e fornecedor)
@@ -222,7 +228,10 @@ INSERT INTO produtos_fornecidos (idfornecedor, idproduto, preco_for, quantidade)
 (2, 28, 300, 30),
 (3, 29, 310, 20),
 (3, 30, 315, 25),
-(4, 31, 320, 18);
+(4, 31, 320, 18),
+(1, 32, 280, 25), -- Jaqueta Jeans
+(2, 33, 250, 40), -- Moletom Canguru
+(3, 34, 300, 15); -- Blazer Casual
 
 -- Inserindo pedidos com valor_total = 0 inicialmente
 INSERT INTO pedido (valor_total, quantidade, idfuncionario, idcliente) VALUES

@@ -10,14 +10,14 @@
     $where = '';
     if (isset($_GET['pesquisa']) && $_GET['pesquisa'] != '') {
         $pesquisa = mysqli_real_escape_string($conn, $_GET['pesquisa']);
-        $where = "WHERE produto.nome LIKE '%$pesquisa%' OR tipo_produto.tipo LIKE '%$pesquisa%'";
+        $where = "WHERE LOWER(produto.nome) LIKE LOWER('%$pesquisa%') OR LOWER(tipo_produto.tipo) LIKE LOWER('%$pesquisa%')";
     }
     if (isset($_GET['categoria']) && $_GET['categoria'] != '') {
         $categoria = mysqli_real_escape_string($conn, $_GET['categoria']);
         if ($where == '') {
-            $where = "WHERE tipo_produto.tipo = '$categoria'";
+            $where = "WHERE LOWER(tipo_produto.tipo) = LOWER('$categoria')";
         } else {
-            $where = " AND tipo_produto.tipo = '$categoria'";
+            $where .= " AND LOWER(tipo_produto.tipo) = LOWER('$categoria')";
         }
     }
 ?>
