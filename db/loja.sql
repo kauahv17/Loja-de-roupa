@@ -98,7 +98,30 @@ CREATE TABLE IF NOT EXISTS venda (
   FOREIGN KEY (idpedido) REFERENCES pedido(idpedido)
 );
 
-
+-- Tabela: devolução
+CREATE TABLE IF NOT EXISTS devolucao (
+    iddevolucao INT NOT NULL AUTO_INCREMENT,
+    idvenda INT NOT NULL,
+    data_devolucao DATETIME DEFAULT (CURRENT_TIMESTAMP),
+    motivo VARCHAR(255) NOT NULL,
+    valor_total DECIMAL(10,2) NOT NULL,
+    idfuncionario INT NOT NULL,
+    PRIMARY KEY (iddevolucao),
+    FOREIGN KEY (idvenda) REFERENCES venda(idvenda),
+    FOREIGN KEY (idfuncionario) REFERENCES funcionario(idfuncionario)
+);
+-- Tabela: Produtos devolvidos
+CREATE TABLE IF NOT EXISTS produto_devolucao (
+    idproduto_devolucao INT NOT NULL AUTO_INCREMENT,
+    iddevolucao INT NOT NULL,
+    idproduto INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_dev DECIMAL(10,2) NOT NULL,
+    tamanho VARCHAR(3) DEFAULT NULL,
+    PRIMARY KEY (idproduto_devolucao),
+    FOREIGN KEY (iddevolucao) REFERENCES devolucao(iddevolucao),
+    FOREIGN KEY (idproduto) REFERENCES produto(idproduto)
+);
 
 -- Reiniciar incremento
 ALTER TABLE cliente AUTO_INCREMENT = 1;

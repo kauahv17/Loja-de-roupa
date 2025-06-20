@@ -19,13 +19,15 @@ $sql = "SELECT
     p.idpedido,
     p.data_pedido,
     c.nome AS cliente,
-    p.quantidade AS qtd_total,
-    p.valor_total
+    p.quantidade AS qtd_total_vendida,
+    p.valor_total,
+    (SELECT COALESCE(SUM(pd.quantidade), 0) FROM devolucao d JOIN produto_devolucao pd ON d.iddevolucao = pd.iddevolucao WHERE d.idvenda = v.idvenda) AS qtd_total_devolvida
 FROM venda v
 JOIN pedido p ON v.idpedido = p.idpedido
 JOIN cliente c ON p.idcliente = c.idcliente
 JOIN funcionario f ON p.idfuncionario = f.idfuncionario 
 $where
+GROUP BY v.idvenda, p.idpedido, p.data_pedido, c.nome, p.quantidade, p.valor_total
 ORDER BY v.idvenda DESC";
 
 $result = mysqli_query($conn, $sql);
@@ -99,11 +101,11 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>ID Venda</th>
                 <th>Cliente</th>
-                <th>Quantidade</th>
+                <th>Status</th>
                 <th>Valor</th>
-                <th>Data do Pedido</th>
+                <th>Data</th>
                 <th class="text-center" style="color: white;">
                     <a href="graficos.php">
                         <img src="../assets/img/chart.svg" alt="Gráficos" style="width:20px;" />
@@ -114,14 +116,29 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
         <tbody>
             <?php if (mysqli_num_rows($result) > 0): ?>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <?php
+                        // Determinar o status da venda
+                        $status = '';
+                        $badge_class = '';
+                        if ($row['qtd_total_devolvida'] == 0) {
+                            $status = 'Concluído';
+                            $badge_class = 'badge-success';
+                        } elseif ($row['qtd_total_devolvida'] < $row['qtd_total_vendida']) {
+                            $status = 'Dev. Parcial';
+                            $badge_class = 'badge-warning';
+                        } else {
+                            $status = 'Dev. Total';
+                            $badge_class = 'badge-danger';
+                        }
+                    ?>
                     <tr>
                         <td><?= $row['idvenda'] ?></td>
                         <td><?= htmlspecialchars($row['cliente']) ?></td>
-                        <td><?= $row['qtd_total'] ?></td>
+                        <td><span class="badge <?= $badge_class ?>"><?= $status ?></span></td>
                         <td>R$ <?= number_format($row['valor_total'], 2, ',', '.') ?></td>
                         <td><?= date('d/m/Y', strtotime($row['data_pedido'])) ?></td>
                         <td class="text-center">
-                            <button class="btn btn-sm  btnDetalhes" data-idpedido="<?= $row['idpedido'] ?>">
+                            <button class="btn btn-sm btnDetalhes" data-idvenda="<?= $row['idvenda'] ?>" data-idpedido="<?= $row['idpedido'] ?>">
                                 <img src="../assets/img/eye.svg" alt="Ver detalhes" style="width:20px;" />
                             </button>
                         </td>
@@ -147,7 +164,8 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
         </button>
       </div>
       <div class="modal-body">
-        <!-- Conteúdo carregado via AJAX -->
+        <!-- Conteúdo da Venda Original -->
+        <h6>Itens da Venda</h6>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -162,6 +180,14 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
                 <!-- dados aqui -->
             </tbody>
         </table>
+        <!-- Container para Detalhes da Devolução -->
+        <div id="detalhesDevolucaoContainer" style="display:none;">
+            <hr>
+            <h6>Itens Devolvidos</h6>
+            <div id="detalhesDevolucaoBody">
+                <!-- conteúdo da devolução aqui -->
+            </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -178,28 +204,60 @@ $resultFunc = mysqli_query($conn, $sqlFunc);
 $(document).ready(function(){
     $('.btnDetalhes').click(function(){
         var idpedido = $(this).data('idpedido');
+        var idvenda = $(this).data('idvenda');
+        
         $.ajax({
-            url: 'detalhes_pedido.php',
+            url: 'detalhes_venda_completo.php',
             method: 'GET',
-            data: { idpedido: idpedido },
+            data: { idpedido: idpedido, idvenda: idvenda },
             dataType: 'json',
             success: function(response){
-                var tbody = '';
-                if(response.length > 0){
-                    response.forEach(function(item){
+                // Popula detalhes da venda
+                var tbodyVenda = '';
+                if(response.venda && response.venda.length > 0){
+                    response.venda.forEach(function(item){
                         var subtotal = item.quantidade * item.preco_ped;
-                        tbody += '<tr>'+
+                        tbodyVenda += '<tr>'+
                             '<td>'+item.produto+'</td>'+
                             '<td>'+item.quantidade+'</td>'+
                             '<td>'+item.tamanho+'</td>'+
-                            '<td>R$ '+item.preco_ped.toFixed(2).replace(".", ",")+'</td>'+
+                            '<td>R$ '+parseFloat(item.preco_ped).toFixed(2).replace(".", ",")+'</td>'+
                             '<td>R$ '+subtotal.toFixed(2).replace(".", ",")+'</td>'+
                             '</tr>';
                     });
                 } else {
-                    tbody = '<tr><td colspan="5" class="text-center">Nenhum produto encontrado.</td></tr>';
+                    tbodyVenda = '<tr><td colspan="5" class="text-center">Nenhum produto encontrado.</td></tr>';
                 }
-                $('#detalhesBody').html(tbody);
+                $('#detalhesBody').html(tbodyVenda);
+
+                // Popula detalhes da devolução, se houver
+                if(response.devolucao && response.devolucao.info) {
+                    var devolucaoHtml = '<h5>Motivo: ' + response.devolucao.info.motivo + '</h5>' +
+                        '<p><strong>Data:</strong> ' + new Date(response.devolucao.info.data_devolucao).toLocaleDateString('pt-BR') + ' | ' +
+                        '<strong>Funcionário:</strong> ' + response.devolucao.info.funcionario + ' | ' +
+                        '<strong>Valor Devolvido:</strong> R$ ' + parseFloat(response.devolucao.info.valor_total).toFixed(2).replace(".", ",") + '</p>' +
+                        '<table class="table table-sm table-bordered"><thead><tr><th>Produto</th><th>Qtd</th><th>Tamanho</th><th>Preço</th><th>Subtotal</th></tr></thead><tbody>';
+                    
+                    response.devolucao.itens.forEach(function(item){
+                        var subtotal = item.quantidade * item.preco_dev;
+                        devolucaoHtml += '<tr>' +
+                            '<td>' + item.produto + '</td>' +
+                            '<td>' + item.quantidade + '</td>' +
+                            '<td>' + (item.tamanho || 'N/A') + '</td>' +
+                            '<td>R$ ' + parseFloat(item.preco_dev).toFixed(2).replace(".", ",") + '</td>' +
+                            '<td>R$ ' + subtotal.toFixed(2).replace(".", ",") + '</td>' +
+                            '</tr>';
+                    });
+
+                    devolucaoHtml += '</tbody></table>';
+                    
+                    $('#detalhesDevolucaoBody').html(devolucaoHtml);
+                    $('#detalhesDevolucaoContainer').show();
+                } else {
+                    $('#detalhesDevolucaoContainer').hide();
+                    $('#detalhesDevolucaoBody').html('');
+                }
+
                 $('#modalDetalhes').modal('show');
             },
             error: function(){
