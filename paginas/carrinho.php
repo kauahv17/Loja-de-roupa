@@ -262,7 +262,7 @@
                         <img src="../assets/img/prod_img.svg" alt="Produto">
                     </div>
                     <div class="carrinho-card-info">
-                        <span class="carrinho-card-title"><?php echo $produto['nome']; ?></span>
+                        <span class="carrinho-card-title"><?php echo $produto['nome']. ' ' . $produto['cor']; ?></span>
                         <span class="carrinho-card-price">R$ <?php echo number_format($produto['preco_uni'], 2, ',', '.'); ?></span>
                     </div>
                     <div class="carrinho-card-center">
@@ -309,7 +309,7 @@
                 <div class="h1-right">Cliente</div>
             </div>
             <form method="POST" action="carrinho.php">
-                <div class="carrinho-busca-group" style="display: flex; align-items: center; gap: 16px;">
+                <div class="carrinho-busca-group">
                     <select class="carrinho-select" name="idcliente" id="select-cliente" required>
                         <option value="">Selecione o cliente</option>
                         <?php
@@ -325,13 +325,13 @@
                             }
                         ?>
                     </select>
-                    <a href="cadastro_cliente.php" class="carrinho-button" style="margin: 0;">Cadastrar Cliente</a>
+                    <a href="cadastro_cliente.php" class="carrinho-button">Cadastrar Cliente</a>
                 </div>
                 <div class="carrinho-valor-total">
                     <span class="total">Valor total ----------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
                 </div><br><br><br>
 
-                <button type="submit" name="finalizar_compra" class="carrinho-button">Finalizar compra</button>
+                <button type="submit" name="finalizar_compra" class="carrinho-button finalizar">Finalizar compra</button>
             </form>
         </div>
     </div>
