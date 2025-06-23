@@ -18,7 +18,7 @@
     padding: 20px 0 0 0;
     row-gap: 20px;
     width: 53vw;
-    height: 70vh;
+    max-height: 70vh;
     margin: 0 auto;
 }
 
@@ -55,10 +55,10 @@
     justify-content: center;
     flex: 1;
     gap: 2px;
+    font-weight: bold;
 }
 
 .carrinho-card-title {
-    font-weight: bold;
     font-size: 1.08rem;
     color: #222;
 }
@@ -84,6 +84,13 @@
     font-size: 1.01rem;
 }
 
+.carrinho-card-size {
+    width: 70pX;
+    border-radius: 25px;
+    background-color: #D97904;
+    font-weight: bold;
+    text-align: center;
+}
 
 .carrinho-trash-form {
     margin: 0;
@@ -93,8 +100,6 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0 0 0 6px;
-    margin-top: 0;
 }
 
 .carrinho-trash-btn img {
@@ -102,78 +107,15 @@
     height: 25px;
 }
 
-
-.carrinho-busca-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    max-width: 600px;
-    margin: 32px auto 12px auto;
-}
-
-.carrinho-valor-total {
-    background: #D9D9D9;
-    border-radius: 18px;
-    width: 100%;
-    max-width: 700px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin: 24px auto 0 auto;
-    padding: 0 32px;
-}
-
-.total {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-    text-align: right;
-}
-
-.carrinho-button {
-    background: #e88c1a;
-    border: none;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.18rem;
-    font-weight: bold;
-    padding: 12px 38px;
-    margin: 0 auto 0 auto;
-    display: block;
-    transition: background 0.2s;
-    text-decoration: none;
-    white-space: nowrap;
-    min-width: unset;
-}
-
-.carrinho-button:hover {
-    background: #b86a0a;
-}
-
-.carrinho-button.finalizar {
-    margin-bottom: 50px;
-}
-
-.carrinho-busca-group .carrinho-button {
-    font-size: 1rem;
-    padding: 8px 18px;
-    border-radius: 8px;
-    margin: 0;
-    display: inline-block;
-}
-
 .carrinho-card-actions-vertical {
-    background: #e88c1a;
+    background: #D97904;
     border-radius: 0 16px 16px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 7%;
-    height: 100%;
+    height: 120px;
 }
 
 .qtd-btn {
@@ -184,7 +126,7 @@
     font-weight: bold;
     cursor: pointer;
     width: 100%;
-    height: 28px;
+    height: 100%;
     border-radius: 4px;
     transition: background 0.2s, color 0.2s;
     display: flex;
@@ -197,4 +139,67 @@
 .qtd-btn:hover {
     background: #b86a0a;
     color: #fff;
+}
+
+.carrinho-busca-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 51vw;
+    height: 50px;
+    margin: 32px auto 12px auto;
+}
+
+.carrinho-busca-group .carrinho-button {
+    font-size: 1rem;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.carrinho-button {
+    background: #D97904;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.18rem;
+    font-weight: bold;
+    margin: 0 auto 0 auto;
+    padding: 8px 38px;
+    display: block;
+    transition: background 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.carrinho-button:hover {
+    background: #b86a0a;
+}
+
+.carrinho-valor-total {
+    background: #D9D9D9;
+    border-radius: 18px;
+    width: 47vw;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    margin: 30px auto;
+    font-size: 1.2rem;
+}
+
+.total-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.total-valor {
+    font-weight: bold;
+    color: #D97904;
+}
+
+
+.carrinho-button.finalizar {
+    margin-bottom: 50px;
 }

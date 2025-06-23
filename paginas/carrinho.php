@@ -268,9 +268,7 @@
                     <div class="carrinho-card-center">
                         <span class="carrinho-card-sum">R$ <?php echo number_format($subtotal, 2, ',', '.'); ?></span>
                         <?php if($produto['tipo'] != 'óculos'): ?>
-                            <select class="carrinho-tamanho-select" disabled>
-                                <option><?php echo $tamanho !== '' ? $tamanho : 'Tamanho'; ?></option>
-                            </select>
+                            <span class="carrinho-card-size"><?php echo $tamanho !== '' ? $tamanho : 'Tamanho'; ?></span>
                         <?php endif; ?>
                         <form method="POST" class="carrinho-trash-form">
                             <input type="hidden" name="idproduto" value="<?php echo $produto_id; ?>">
@@ -328,8 +326,9 @@
                     <a href="cadastro_cliente.php" class="carrinho-button">Cadastrar Cliente</a>
                 </div>
                 <div class="carrinho-valor-total">
-                    <span class="total">Valor total ----------------------------------------------------------------- R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
-                </div><br><br><br>
+                    <span class="total-label">Valor Total:</span>
+                    <span class="total-valor">R$ <?php echo number_format($total, 2, ',', '.'); ?></span>
+                </div>
 
                 <button type="submit" name="finalizar_compra" class="carrinho-button finalizar">Finalizar compra</button>
             </form>
