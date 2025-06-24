@@ -47,7 +47,6 @@
                 <div class="form-form">
                     <a href="vendas.php"><button class="home-button">Realizar venda</button></a>
                     <a href="relatorio_vendas.php"><button class="home-button">Relatório de venda</button></a>
-                    <a href="devolucao.php"><button class="home-button">Devolução</button></a>
                     <?php
                         if ($_SESSION['cargo'] == 'gerente') {
                             echo '<a href="funcionarios.php"><button class="home-button">Funcionários</button></a>';
