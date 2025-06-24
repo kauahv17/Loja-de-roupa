@@ -251,51 +251,65 @@ if (isset($_POST['alterar_quantidade'])) {
                         }
 
                         if ($row['tipo'] != 'óculos'): ?>
-                            <form method="POST" style="display: flex; align-items: center; gap: 5px;">
-                                <select name='tamanhos[]' required style="pointer-events: auto; max-height: 100px;">
-                                    <option value=''></option>
-                                    <?php
-                                    if ($row['tipo'] == 'camiseta') {
-                                        $tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
-                                        foreach ($tamanhos as $t) {
-                                            $selected = '';
-                                            echo "<option value='{$t}' {$selected}>{$t}</option>";
-                                        }
-                                    } else { // Sapato, etc.
-                                        for ($i = 34; $i <= 45; $i++) {
-                                            $selected = '';
-                                            echo "<option value='{$i}' {$selected}>{$i}</option>";
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                                <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
-                                <input type="hidden" name="quantidade" value="1">
-                                <button type="submit" name="carrinho" class="btn-carrinho">
-                                    <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
-                                </button>
-                            </form>
-                        <?php endif; ?>
-
-                        <?php if (!empty($items_in_cart_for_this_product)): // Se o produto estiver no carrinho para qualquer tamanho ?>
-                            <?php foreach ($items_in_cart_for_this_product as $item_in_cart): ?>
-                            <!-- Removido o grupo de botões de quantidade -->
-                            <?php endforeach; ?>
-                        <?php elseif ($row['tipo'] == 'óculos'): // Apenas mostra adicionar ao carrinho para óculos se não estiver no carrinho ?>
-                            <form method="POST">
-                                <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
-                                <input type="hidden" name="quantidade" value="1">
-                                <button type="submit" name="carrinho" class="btn-carrinho">
-                                    <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
-                                </button>
-                            </form>
+                            <div class='dropdown'>
+                                <?php if(empty($items_in_cart_for_this_product)):?>
+                                    <form method="POST">
+                                        <div class="vendas-card-actions">
+                                            <select name='tamanhos[]' required>
+                                                <option value=""></option>
+                                                <?php
+                                                if ($row['tipo'] == 'camiseta') {
+                                                    $tamanhos = ['PP', 'P', 'M', 'G', 'GG'];
+                                                    foreach ($tamanhos as $t) {
+                                                        echo "<option value='{$t}'>{$t}</option>";
+                                                    }
+                                                } else {
+                                                    for ($i = 34; $i <= 45; $i++) {
+                                                        echo "<option value='{$i}'>{$i}</option>";
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            <button type="submit" name="carrinho" class="btn-carrinho">
+                                                <img src="../assets/img/comprar.svg" alt="Carrinho" class="cart">
+                                            </button>
+                                        </div>
+                                        <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                        <input type="hidden" name="quantidade" value="1">
+                                        <input type="hidden" name="cor" value="<?php echo $row['cor']; ?>">
+                                    </form>
+                                <?php else: ?>
+                                    <?php foreach ($items_in_cart_for_this_product as $item_in_cart): ?>
+                                        <div class="vendas-card-actions">
+                                            <span class="size"><?php echo $item_in_cart['tamanho']; ?></span>
+                                            <div class="vendas-card-botoes">
+                                                <form method="POST">
+                                                    <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                                    <input type="hidden" name="tamanho" value="<?php echo $item_in_cart['tamanho'] ?? ''; ?>">
+                                                    <input type="hidden" name="quantidade" value="<?php echo $item_in_cart['quantidade'] - 1; ?>">
+                                                    <button type="submit" name="alterar_quantidade" class="btn-diminuir">-</button>
+                                                </form>
+                                                <span class="quantidade"><?php echo $item_in_cart['quantidade']; ?></span>
+                                                <form method="POST">
+                                                    <input type="hidden" name="idproduto" value="<?php echo $row['idproduto']; ?>">
+                                                    <input type="hidden" name="tamanho" value="<?php echo $item_in_cart['tamanho'] ?? ''; ?>">
+                                                    <input type="hidden" name="quantidade" value="<?php echo $item_in_cart['quantidade'] + 1; ?>">
+                                                    <button type="submit" name="alterar_quantidade" class="btn-aumentar">+</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
 
+
             <?php
                 }
+
             } else {
                 echo "<p style='text-align: center;'>Nenhum produto encontrado.</p>";
             }

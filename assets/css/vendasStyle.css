@@ -4,9 +4,11 @@
     margin-top: 5%;
 }
 
+
 .settings-icon {
     margin-top: 3%;
 }
+
 
 .vendas-header {
     display: flex;
@@ -14,6 +16,7 @@
     margin-top: 1%;
     margin-bottom: 3%;
 }
+
 
 .vendas-search {
     width: 50vw;
@@ -24,6 +27,7 @@
     margin: 20px auto;
 }
 
+
 .vendas-search input {
     width: 100%;
     height: 100%;
@@ -33,6 +37,7 @@
     padding-left: 2%;
 }
 
+
 .vendas-search-btn {
     border: none;
     cursor: pointer;
@@ -40,43 +45,50 @@
     align-items: center;
 }
 
+
 .vendas-search-btn img {
     width: 80%;
 }
 
+
 .vendas-lista {
     display: grid;
-    grid-template-columns: repeat(4, 11%);
+    grid-template-columns: repeat(4, 11vw);
     column-gap: 2.1%;
-    row-gap: 20px;
+    row-gap: 80px;
     justify-content: center;
-
 }
+
 
 .vendas-card {
+    position: relative;
     background: #f2f2f2;
-    border-radius: 16px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 35vh;
+    height: 250px;
 }
 
+
 .vendas-card-img {
+    border-radius: 16px 16px 0 0;
     background: #d9d9d9;
-    min-height: 60%;
+    min-height: 70%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
 .vendas-card-img img {
     width: 40%;
 }
 
+
 .vendas-card-info {
-    background: #e88c1a;
+    background: #D97904;
     color: #fff;
+    border-radius: 0 0 16px 16px;
+    min-height: 120px;
     padding: 2.5% 7% 0 7%;
     flex: 1;
     display: flex;
@@ -84,10 +96,12 @@
     justify-content: space-between;
 }
 
+
 .vendas-card-title {
     font-weight: bold;
     font-size: 1.05rem;
 }
+
 
 .vendas-card-price-line {
     font-size: 1rem;
@@ -95,25 +109,32 @@
     margin-top: 3%;
 }
 
+
 .vendas-card-estoque {
     margin-left: auto;
     text-align: right;
 }
 
-.vendas-card-icons {
+
+.dropdown {
+    width: 100%;
+    max-height: 70%;
+}
+
+
+.vendas-card-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 
-.dropdown {
-    width: 70px;
-    height: 35px;
-}
-
-.dropdown select {
+.vendas-card-actions select,
+.size {
+    min-width: 35%;
+    height: 100%;
     border: none;
     border-radius: 25px;
     font-size: 1rem;
@@ -121,9 +142,12 @@
     outline: none;
     transition: box-shadow 0.2s;
     color: #D97904;
+    align-items: center;
+
 
     text-align: center;
-    padding-left: 25px;
+    padding-left: 15px;
+
 
     cursor: pointer;
     appearance: none;
@@ -131,45 +155,50 @@
     background-repeat: no-repeat;
     background-position: left 10px center;
     background-size: 16px;
-
-    width: 100%;
-    height: 65%;
 }
 
-.vendas-card-carrinho-group {
-    gap: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .btn-carrinho {
+    margin-left: 8px;
     background: none;
     border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
-.btn-carrinho img {
-    width: 73%;
-    height: 73%;
+
+.btn-carrinho img.cart {
+    width: 28px;
+    height: 28px;
 }
+
 
 .quantidade {
     font-size: 0.90rem;
-    margin-bottom: 15px;
+}
+
+.vendas-card-botoes {
+    width: 70%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-left: auto;
 }
 
 .btn-diminuir,
 .btn-aumentar {
     background: #f2f2f2;
     border: none;
-    border-radius: 50%;
-    width: 25px;
+    border-radius: 50px;
     height: 25px;
-
+    margin-top: 15px;
+    width: 25px;
 }
+
 
 .btn-diminuir:hover,
 .btn-aumentar:hover {
-    background: #b86a0a;
-    color: #ffffff;
+    color: #000000;
 }
